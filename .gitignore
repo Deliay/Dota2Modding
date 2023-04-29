@@ -46,7 +46,7 @@ build/
 *.log
 *.scc
 *.json
-!editor.json
+!editor_config.json
 
 # Visual C++ cache files
 ipch/
