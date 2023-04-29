@@ -5,5 +5,12 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/Dota2Modding.VisualEditor.GUI;Component/ResourceDictionaries/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/Dota2Modding.VisualEditor.GUI;Component/ResourceDictionaries/Generic.xaml" />
+
+        <ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+            <Style
+				x:Key="{x:Type LayoutAnchorableFloatingWindowControl}"
+				BasedOn="{StaticResource {x:Type LayoutAnchorableFloatingWindowControl}}"
+				TargetType="{x:Type LayoutAnchorableFloatingWindowControl}" />
+        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

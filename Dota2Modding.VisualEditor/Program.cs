@@ -35,9 +35,9 @@ new KernelBuilder()
     {
         cfg.SetBasePath(Directory.GetCurrentDirectory());
         cfg.AddEnvironmentVariables();
-        cfg.AddJsonFile("editor.json", optional: false, reloadOnChange: true);
+        cfg.AddJsonFile("editor_config.json", optional: false, reloadOnChange: true);
     })
-    .UsePluginOptions(Path.Combine(Directory.GetCurrentDirectory(), "editor.json"))
+    .UsePluginOptions(Path.Combine(Directory.GetCurrentDirectory(), "editor_config.json"))
     .UseConfigurationModel<EditorConfiguration>()
     .UseLogger((ctx, logger) =>
     {
