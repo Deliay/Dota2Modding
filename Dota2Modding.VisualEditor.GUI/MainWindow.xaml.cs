@@ -41,8 +41,13 @@ namespace Dota2Modding.VisualEditor.GUI
         public ValueTask Uninitialize(ILifetimeScope scope)
         {
             Hide();
-            Close();
             return default;
+        }
+
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            Kernel.Exit();
+            e.Cancel = true;
         }
     }
 }

@@ -199,6 +199,7 @@ namespace EmberCore.KernelServices.Plugins
 
         public async ValueTask DisposeAsync()
         {
+            using var _wpfUIService = this.WpfUIService;
             foreach (var (plugin, scope) in PluginScopes)
             {
                 if (PluginStatus[plugin])
