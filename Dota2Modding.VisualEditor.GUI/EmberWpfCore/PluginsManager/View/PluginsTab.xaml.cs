@@ -15,7 +15,7 @@ namespace EmberWpfCore.Components.PluginsManager.View
     /// Interaction logic for PluginsTab.xaml
     /// </summary>
     [ViewComponentNamespace(@namespace: "CoreWpfTab")]
-    [ViewComponentName(name: "Plugins")]
+    [ViewComponentName(name: "Plugin Manager")]
     public partial class PluginsTab : UserControl, IViewComponent
     {
         public PluginsTab()

@@ -5,6 +5,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dota2Modding.VisualEditor.GUI"
+        xmlns:menu="clr-namespace:Dota2Modding.VisualEditor.GUI.EditorMenu"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing"
         UseLayoutRounding="True">
@@ -13,20 +14,12 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
-        <Menu Grid.Row="0">
-            <MenuItem Header="Testing">
-                <MenuItem Header="Testing - Sub">
-
-                </MenuItem>
-            </MenuItem>
-            <MenuItem Header="Testing2">
-                <MenuItem Header="Testing2 - Sub">
-                    <MenuItem Header="Testing2 - Sub - 2">
-
-                    </MenuItem>
-                </MenuItem>
-            </MenuItem>
+        <Menu Grid.Row="0" x:Name="menu" IsMainMenu="True">
+            <Menu.ItemTemplate>
+                <HierarchicalDataTemplate DataType="{x:Type menu:IEditorMenuItem}" ItemsSource="{Binding BindsDirectlyToSource=True}">
+                    <TextBlock Text="{Binding Name}"/>
+                </HierarchicalDataTemplate>
+            </Menu.ItemTemplate>
         </Menu>
         <DockingManager
             x:Name="dockManager"
@@ -50,18 +43,49 @@
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
                     <LayoutAnchorablePane DockWidth="50">
+                        <LayoutAnchorable
+                                Title="Tool Window 1"
+                                ContentId="toolWindow1">
+                            <StackPanel MinHeight="450">
+                                <TextBox Text="1" />
+                            </StackPanel>
+                        </LayoutAnchorable>
                     </LayoutAnchorablePane>
-                    <LayoutDocumentPaneGroup>
-                        
+                    <LayoutDocumentPaneGroup x:Name="documents">
+                        <LayoutDocumentPane x:Name="LayoutDocumentPane">
+                            <LayoutDocument
+                                Title="Document 1"
+                                ContentId="document1">
+                                <Grid>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                    </Grid.RowDefinitions>
+                                    <Button
+                                        Height="28"
+                                        VerticalAlignment="Top"
+                                        Content="Click to add 2 documents" />
+                                    <TextBox Grid.Row="1" Text="Document 1 Content" />
+                                </Grid>
+                            </LayoutDocument>
+                        </LayoutDocumentPane>
                     </LayoutDocumentPaneGroup>
                 </LayoutPanel>
                 
                 <LayoutRoot.LeftSide>
                     <LayoutAnchorSide>
-                        <LayoutAnchorGroup>
+                        <LayoutAnchorGroup x:Name="LeftGroup">
+                            <LayoutAnchorable
+                                Title="Tool Window 2"
+                                ContentId="toolWindow1">
+                                <StackPanel MinHeight="450">
+                                    <TextBox Text="2" />
+                                </StackPanel>
+                            </LayoutAnchorable>
                         </LayoutAnchorGroup>
                     </LayoutAnchorSide>
                 </LayoutRoot.LeftSide>
+
             </LayoutRoot>
 
 

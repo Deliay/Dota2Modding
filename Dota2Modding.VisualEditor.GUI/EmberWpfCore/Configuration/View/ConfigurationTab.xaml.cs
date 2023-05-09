@@ -26,6 +26,7 @@ namespace EmberWpfCore.Components.Configuration.View
     /// Interaction logic for ConfigurationTab.xaml
     /// </summary>
     [ViewComponentNamespace(@namespace: "CoreWpfTab")]
+    [ViewComponentName("Configuration")]
     public partial class ConfigurationTab : UserControl, IViewComponent
     {
         public ConfigurationTab()

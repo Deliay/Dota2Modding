@@ -1,4 +1,5 @@
-﻿using Dota2Modding.VisualEditor.Configuration;
+﻿using Dota2Modding.VisualEditor;
+using Dota2Modding.VisualEditor.Configuration;
 using EmberCore.Extensions;
 using EmberCore.KernelServices.Plugins;
 using EmberCore.KernelServices.UI.View;
@@ -7,6 +8,7 @@ using EmberKernel.Services.UI.Extension;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Sinks.InMemory;
 using Serilog.Sinks.SystemConsole.Themes;
 using System.IO;
 using System.Windows;
@@ -53,7 +55,8 @@ new KernelBuilder()
             .WriteTo.File(
                 path: loggerFile,
                 rollingInterval: RollingInterval.Day,
-                outputTemplate: GetFileLogFormat(config)))
+                outputTemplate: GetFileLogFormat(config))
+            .WriteTo.Sink(LoggerSink.Instance))
         .AddDebug();
     })
     .UseEventBus()

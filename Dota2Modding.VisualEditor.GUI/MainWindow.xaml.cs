@@ -1,4 +1,6 @@
 ﻿using Autofac;
+using Dota2Modding.VisualEditor.GUI.EditorMenu;
+using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using EmberKernel;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using EmberWpfCore.ViewModel;
@@ -29,13 +31,20 @@ namespace Dota2Modding.VisualEditor.GUI
         }
 
         private Kernel Kernel { get; set; }
-        public ValueTask Initialize(ILifetimeScope scope)
+        private IWindowManager WindowManager { get; set; }
+        private IMenuItemManager MenuItemManager { get; set; } 
+        public async ValueTask Initialize(ILifetimeScope scope)
         {
-            var tabs = scope.Resolve<RegisteredTabs>();
             Kernel = scope.Resolve<Kernel>();
-            //(FindName("Tabs") as TabControl).ItemsSource = tabs;
+            WindowManager = scope.Resolve<IWindowManager>();
+            MenuItemManager = scope.Resolve<IMenuItemManager>();
+            menu.ItemsSource = MenuItemManager;
             Show();
-            return default;
+            var layoutObjects = scope.Resolve<IEnumerable<ILayoutedObject>>();
+            foreach (var layoutObject in layoutObjects)
+            {
+                await scope.RegisterPanel(this.dockManager, layoutObject);
+            }   
         }
 
         public ValueTask Uninitialize(ILifetimeScope scope)
@@ -44,9 +53,14 @@ namespace Dota2Modding.VisualEditor.GUI
             return default;
         }
 
+        private void OpenTookit(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            Kernel.Exit();
+            WindowManager.BeginUIThreadScope(() => Kernel.Exit());
             e.Cancel = true;
         }
     }
