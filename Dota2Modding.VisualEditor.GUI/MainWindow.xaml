@@ -41,15 +41,6 @@
 
             <LayoutRoot>
                 <LayoutPanel Orientation="Horizontal">
-                    <LayoutAnchorablePane DockWidth="50">
-                        <LayoutAnchorable
-                                Title="Tool Window 1"
-                                ContentId="toolWindow1">
-                            <StackPanel MinHeight="450">
-                                <TextBox Text="1" />
-                            </StackPanel>
-                        </LayoutAnchorable>
-                    </LayoutAnchorablePane>
                     <LayoutDocumentPaneGroup x:Name="documents">
                         <LayoutDocumentPane x:Name="LayoutDocumentPane">
                             <LayoutDocument

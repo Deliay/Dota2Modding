@@ -11,6 +11,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Logging;
+using Serilog.Core;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
@@ -19,10 +21,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
         public DotaProject DotaProject { get; private set; }
 
         private readonly IEventBus eventBus;
+        private readonly ILogger<ProjectManager> logger;
 
-        public ProjectManager(IEventBus eventBus)
+        public ProjectManager(IEventBus eventBus, ILogger<ProjectManager> logger)
         {
             this.eventBus = eventBus;
+            this.logger = logger;
         }
 
         public void Dispose()
@@ -33,12 +37,14 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
         public async ValueTask Handle(ProjectSelectedEvent @event)
         {
             var file = @event.SelectedAddonInfoFile;
+            logger.LogInformation($"Opening file {file}");
             try
             {
                 var obj = KvLoader.Parse(file);
                 if (AddonInfo.TryParse(obj, out var info))
                 {
                     DotaProject = new(file, info);
+                    logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
                     await eventBus.Publish(new ProjectLoadedEvent()
                     {
                         AddonInfo = DotaProject.AddonInfo,

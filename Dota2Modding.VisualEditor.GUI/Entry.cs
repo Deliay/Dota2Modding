@@ -22,7 +22,7 @@ using System.Windows;
 
 namespace Dota2Modding.VisualEditor.GUI
 {
-    [EmberPlugin(Author = "ZeroAsh", Name = "Dota 2 Modding Visual Editor main entry", Version = "0.0.1")]
+    [EmberPlugin(Author = "ZeroAsh", Name = "Dota 2 Modding - Core", Version = "0.0.1")]
     public class Entry : Plugin, ICoreWpfPlugin
     {
         public void BuildApplication(Application application)
