@@ -46,7 +46,9 @@ namespace Dota2Modding.VisualEditor.GUI
             foreach (var layoutObject in layoutObjects)
             {
                 await scope.RegisterPanel(this.dockManager, layoutObject);
-            }   
+            }
+            var serializer = new XmlLayoutSerializer(dockManager);
+            serializer.Deserialize("layout.xml");
         }
 
         public ValueTask Uninitialize(ILifetimeScope scope)
