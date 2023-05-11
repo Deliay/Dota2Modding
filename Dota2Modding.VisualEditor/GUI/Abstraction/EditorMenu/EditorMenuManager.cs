@@ -1,5 +1,5 @@
 ﻿using Autofac;
-using Dota2Modding.VisualEditor.GUI.EditorMenu;
+using EmberKernel;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
 using System;
@@ -11,16 +11,16 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.Service
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
-    public class EditorMenuManager : ObservableCollection<IEditorMenuItem>, IMenuItemManager
+    public class EditorMenuManager : ObservableCollection<IEditorMenuItem>, IMenuItemManager, IKernelService
     {
         private readonly Dictionary<string, List<IEditorMenuItem>> _cache = new();
         private readonly Dictionary<IEditorMenuItem, IEditorMenuItem> parents = new();
 
         public void Dispose()
         {
-            this.Clear();
+            Clear();
             _cache.Clear();
             parents.Clear();
             GC.SuppressFinalize(this);
@@ -29,7 +29,7 @@ namespace Dota2Modding.VisualEditor.GUI.Service
         public async ValueTask<IEditorMenuItem> ResolveParent(string id, TimeSpan timeout, CancellationToken cancellationToken)
         {
             var tcs = new TaskCompletionSource<IEditorMenuItem>();
-            NotifyCollectionChangedEventHandler handler = (object? sender, NotifyCollectionChangedEventArgs e) =>
+            NotifyCollectionChangedEventHandler handler = (sender, e) =>
             {
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
@@ -45,11 +45,11 @@ namespace Dota2Modding.VisualEditor.GUI.Service
                     }
                 }
             };
-            this.CollectionChanged += handler;
-            
+            CollectionChanged += handler;
+
             return await tcs.Task.ContinueWith((r) =>
             {
-                this.CollectionChanged -= handler;
+                CollectionChanged -= handler;
                 return r;
             }).Unwrap().WaitAsync(timeout);
         }
@@ -60,7 +60,7 @@ namespace Dota2Modding.VisualEditor.GUI.Service
 
             if (menuItem.ParentId == null)
             {
-                this.Add(menuItem);
+                Add(menuItem);
                 parents.Add(menuItem, null!);
             }
             else
@@ -78,7 +78,7 @@ namespace Dota2Modding.VisualEditor.GUI.Service
                 else
                 {
                     parent.Add(menuItem);
-                    this.parents.Add(menuItem, parent);
+                    parents.Add(menuItem, parent);
                 }
             }
 
@@ -103,7 +103,7 @@ namespace Dota2Modding.VisualEditor.GUI.Service
             {
                 if (parent is null)
                 {
-                    this.Remove(menuItem);
+                    Remove(menuItem);
                 }
                 else
                 {

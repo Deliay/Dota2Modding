@@ -1,0 +1,30 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+	  <OutputType>Library</OutputType>
+	  <TargetFramework>net7.0-windows</TargetFramework>
+	  <Nullable>enable</Nullable>
+	  <UseWPF>true</UseWPF>
+	  <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
+    <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.6.0" />
+    <PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
+    <ProjectReference Include="..\Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj">
+      <Private>False</Private>
+      <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+    </ProjectReference>
+    <ProjectReference Include="..\Dota2Modding.VisualEditor.GUI.Abstraction\Dota2Modding.VisualEditor.GUI.Abstraction.csproj" />
+    <ProjectReference Include="..\Dota2Modding.VisualEditor.Plugins.Project.Abstraction\Dota2Modding.VisualEditor.Plugins.Project.Abstraction.csproj" />
+  </ItemGroup>
+
+	<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+		<Exec Command="move $(OutDir)\$(TargetFileName) $(OutDir)\$(TargetName).dll&#xD;&#xA;mkdir $(SolutionDir)build\$(ConfigurationName)\plugins\$(ProjectName)&#xD;&#xA;copy $(OutDir)\*  $(SolutionDir)build\$(ConfigurationName)\plugins\$(ProjectName)" ContinueOnError="true" IgnoreExitCode="true" />
+	</Target>
+</Project>

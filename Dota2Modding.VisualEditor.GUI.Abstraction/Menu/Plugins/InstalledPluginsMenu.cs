@@ -1,4 +1,4 @@
-﻿using Dota2Modding.VisualEditor.GUI.EditorMenu;
+﻿using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using EmberKernel.Plugins.Models;
 using EmberKernel.Services.UI.Mvvm.ViewModel.Plugins;
 using System;
@@ -9,7 +9,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.Components.Menu.Plugins
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.Menu.Plugins
 {
     public class InstalledPluginsMenu : AbstractMenu
     {
@@ -28,7 +28,7 @@ namespace Dota2Modding.VisualEditor.GUI.Components.Menu.Plugins
             {
                 if (item is PluginDescriptor descriptor)
                 {
-                    this.Add(new InstalledPluginMenuItem(IdOf(descriptor), descriptor.Name, descriptor.Version));
+                    Add(new InstalledPluginMenuItem(IdOf(descriptor), descriptor.Name, descriptor.Version));
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace Dota2Modding.VisualEditor.GUI.Components.Menu.Plugins
                         var findedItem = this.FirstOrDefault(i => i.Id == targetId);
                         if (findedItem is not null)
                         {
-                            this.Remove(findedItem);
+                            Remove(findedItem);
                         }
                     }
                 }

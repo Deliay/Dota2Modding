@@ -1,10 +1,9 @@
 ﻿using Autofac;
+using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
+using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
+using Dota2Modding.VisualEditor.GUI.Abstraction.Menu.Plugins;
 using Dota2Modding.VisualEditor.GUI.Components.Consoles;
-using Dota2Modding.VisualEditor.GUI.Components.Menu;
-using Dota2Modding.VisualEditor.GUI.Components.Menu.Plugins;
-using Dota2Modding.VisualEditor.GUI.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
-using Dota2Modding.VisualEditor.GUI.Service;
 using EmberCore.KernelServices.UI.View;
 using EmberKernel.Plugins;
 using EmberKernel.Plugins.Attributes;
@@ -37,8 +36,6 @@ namespace Dota2Modding.VisualEditor.GUI
         public override void BuildComponents(IComponentBuilder builder)
         {
             builder.ConfigureComponent<ConsoleObservableSubscriber>().AsSelf().SingleInstance();
-            builder.ConfigureComponent<EditorMenuManager>().As<IMenuItemManager>().SingleInstance();
-            builder.ConfigureComponent<RegisteredLayoutDocument>();
             builder.ConfigureWpfWindow<MainWindow>();
             builder.ConfigureUIComponent<PluginsTab>();
             builder.ConfigureUIComponent<ConfigurationTab>();

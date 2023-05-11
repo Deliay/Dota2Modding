@@ -9,7 +9,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2Modding.Playground", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2Modding.VisualEditor", "Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj", "{C0EA7583-8745-4D76-B7DD-6737C40D1C9C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2Modding.VisualEditor.GUI", "Dota2Modding.VisualEditor.GUI\Dota2Modding.VisualEditor.GUI.csproj", "{1804AF49-AD29-460C-8907-A34300F62848}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2Modding.VisualEditor.GUI", "Dota2Modding.VisualEditor.GUI\Dota2Modding.VisualEditor.GUI.csproj", "{1804AF49-AD29-460C-8907-A34300F62848}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2Modding.VisualEditor.Plugins.Project", "Dota2Modding.VisualEditor.Plugins.Project\Dota2Modding.VisualEditor.Plugins.Project.csproj", "{8203EF14-202E-4B30-972E-452D027A2835}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dota2Modding.VisualEditor.Plugins.Project.Abstraction", "Dota2Modding.VisualEditor.Plugins.Project.Abstraction\Dota2Modding.VisualEditor.Plugins.Project.Abstraction.csproj", "{0A132376-C12F-4204-868C-81C0222FB04C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2Modding.Common.Models", "Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj", "{05236223-2D5F-4B44-A080-0DD7679DBA64}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dota2Modding.VisualEditor.GUI.Abstraction", "Dota2Modding.VisualEditor.GUI.Abstraction\Dota2Modding.VisualEditor.GUI.Abstraction.csproj", "{CD514FBF-1983-409B-BB0C-B04F6DD56D81}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +41,22 @@ Global
 		{1804AF49-AD29-460C-8907-A34300F62848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1804AF49-AD29-460C-8907-A34300F62848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1804AF49-AD29-460C-8907-A34300F62848}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8203EF14-202E-4B30-972E-452D027A2835}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8203EF14-202E-4B30-972E-452D027A2835}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8203EF14-202E-4B30-972E-452D027A2835}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8203EF14-202E-4B30-972E-452D027A2835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A132376-C12F-4204-868C-81C0222FB04C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A132376-C12F-4204-868C-81C0222FB04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A132376-C12F-4204-868C-81C0222FB04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A132376-C12F-4204-868C-81C0222FB04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{05236223-2D5F-4B44-A080-0DD7679DBA64}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{05236223-2D5F-4B44-A080-0DD7679DBA64}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{05236223-2D5F-4B44-A080-0DD7679DBA64}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{05236223-2D5F-4B44-A080-0DD7679DBA64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CD514FBF-1983-409B-BB0C-B04F6DD56D81}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CD514FBF-1983-409B-BB0C-B04F6DD56D81}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CD514FBF-1983-409B-BB0C-B04F6DD56D81}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CD514FBF-1983-409B-BB0C-B04F6DD56D81}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

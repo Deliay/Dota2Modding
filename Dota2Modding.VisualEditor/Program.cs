@@ -1,5 +1,7 @@
 ﻿using Dota2Modding.VisualEditor;
 using Dota2Modding.VisualEditor.Configuration;
+using Dota2Modding.VisualEditor.GUI.Abstraction.Document;
+using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using EmberCore.Extensions;
 using EmberCore.KernelServices.Plugins;
 using EmberCore.KernelServices.UI.View;
@@ -64,5 +66,7 @@ new KernelBuilder()
     .UsePlugins<PluginsManager>()
     .UseWindowManager<EmberWpfUIService, Window>()
     .UseMvvmInterface(mvvm => mvvm.UseConfigurationModel())
+    .UseKernelService<EditorMenuManager, IMenuItemManager>()
+    .UseKernelService<DocumentManager>()
     .Build()
     .Run();

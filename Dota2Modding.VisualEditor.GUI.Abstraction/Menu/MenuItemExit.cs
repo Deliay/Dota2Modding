@@ -1,4 +1,4 @@
-﻿using Dota2Modding.VisualEditor.GUI.EditorMenu;
+﻿using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using EmberKernel;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.Components.Menu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.Menu
 {
     public class MenuItemExit : AbstractMenuItem
     {

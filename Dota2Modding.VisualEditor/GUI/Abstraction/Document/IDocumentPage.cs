@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.Document
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.Document
 {
     public interface IDocumentPage : IViewComponent
     {

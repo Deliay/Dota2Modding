@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.EditorMenu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
     public abstract class AbstractMenu : AbstractMenuItem
     {

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.EditorMenu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
     public abstract class AbstractMenuItem : ObservableCollection<IEditorMenuItem>, IEditorMenuItem
     {
@@ -27,14 +27,14 @@ namespace Dota2Modding.VisualEditor.GUI.EditorMenu
 
         public ValueTask InitializeMenuItem<T>(ILifetimeScope scope) where T : IEditorMenuItem
         {
-            this.Add(scope.Resolve<T>());
+            Add(scope.Resolve<T>());
 
             return ValueTask.CompletedTask;
         }
 
         public ValueTask UnInitializeMenuItem<T>(ILifetimeScope scope) where T : IEditorMenuItem
         {
-            this.Remove(scope.Resolve<T>());
+            Remove(scope.Resolve<T>());
 
             return ValueTask.CompletedTask;
         }

@@ -23,6 +23,8 @@
 	<PackageReference Include="Dirkster.AvalonDock.Themes.VS2013" Version="4.72.0" />
 	<PackageReference Include="Serilog.Sinks.InMemory" Version="0.11.0" />
 	<PackageReference Include="Simple.Wpf.Terminal" Version="2.3.57" />
+	<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
+	  <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
   </ItemGroup>
 
   <ItemGroup>

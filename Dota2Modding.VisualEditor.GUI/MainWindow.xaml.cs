@@ -1,6 +1,6 @@
 ﻿using Autofac;
 using AvalonDock.Layout.Serialization;
-using Dota2Modding.VisualEditor.GUI.EditorMenu;
+using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using EmberKernel;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
@@ -47,8 +47,11 @@ namespace Dota2Modding.VisualEditor.GUI
             {
                 await scope.RegisterPanel(this.dockManager, layoutObject);
             }
-            var serializer = new XmlLayoutSerializer(dockManager);
-            serializer.Deserialize("layout.xml");
+            if (File.Exists("layout.xml"))
+            {
+                var serializer = new XmlLayoutSerializer(dockManager);
+                serializer.Deserialize("layout.xml");
+            }
         }
 
         public ValueTask Uninitialize(ILifetimeScope scope)
@@ -58,11 +61,6 @@ namespace Dota2Modding.VisualEditor.GUI
             serializer.Serialize(writer);
             Hide();
             return default;
-        }
-
-        private void OpenTookit(object sender, RoutedEventArgs e)
-        {
-
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)

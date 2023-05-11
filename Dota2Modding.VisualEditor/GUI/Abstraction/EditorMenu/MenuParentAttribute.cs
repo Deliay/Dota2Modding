@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.EditorMenu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
-    [System.AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
+    [AttributeUsage(AttributeTargets.Class, Inherited = false, AllowMultiple = false)]
     sealed class MenuParentAttribute : Attribute
     {
         readonly string parentGuid;

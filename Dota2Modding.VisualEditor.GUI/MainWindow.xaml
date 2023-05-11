@@ -5,7 +5,6 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Dota2Modding.VisualEditor.GUI"
-        xmlns:menu="clr-namespace:Dota2Modding.VisualEditor.GUI.EditorMenu"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Closing="Window_Closing"
         UseLayoutRounding="True">
@@ -16,7 +15,7 @@
         </Grid.RowDefinitions>
         <Menu Grid.Row="0" x:Name="menu" IsMainMenu="True">
             <Menu.ItemTemplate>
-                <HierarchicalDataTemplate DataType="{x:Type menu:IEditorMenuItem}" ItemsSource="{Binding BindsDirectlyToSource=True}">
+                <HierarchicalDataTemplate ItemsSource="{Binding BindsDirectlyToSource=True}">
                     <TextBlock Text="{Binding Name}"/>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>

@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
-namespace Dota2Modding.VisualEditor.GUI.EditorMenu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
     public interface IEditorMenuItem : ICommand, IComponent, IMenuItemManager
     {

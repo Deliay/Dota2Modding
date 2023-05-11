@@ -1,5 +1,4 @@
 ﻿using Autofac;
-using Dota2Modding.VisualEditor.GUI.Service;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using System;
 using System.Collections.Generic;
@@ -7,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Dota2Modding.VisualEditor.GUI.EditorMenu
+namespace Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu
 {
     public static class EditorMenuManagerExtensions
     {
@@ -15,7 +14,7 @@ namespace Dota2Modding.VisualEditor.GUI.EditorMenu
         {
             var itemManager = scope.Resolve<IMenuItemManager>();
             var windowManager = scope.Resolve<IWindowManager>();
-            
+
             return windowManager.BeginUIThreadScope(() => itemManager.InitializeMenuItem<T>(scope));
         }
 
