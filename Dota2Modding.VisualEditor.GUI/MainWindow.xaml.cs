@@ -1,4 +1,5 @@
 ﻿using Autofac;
+using AvalonDock.Layout.Serialization;
 using Dota2Modding.VisualEditor.GUI.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using EmberKernel;
@@ -6,6 +7,7 @@ using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using EmberWpfCore.ViewModel;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -49,6 +51,9 @@ namespace Dota2Modding.VisualEditor.GUI
 
         public ValueTask Uninitialize(ILifetimeScope scope)
         {
+            var serializer = new XmlLayoutSerializer(dockManager);
+            using var writer = new StreamWriter("layout.xml");
+            serializer.Serialize(writer);
             Hide();
             return default;
         }

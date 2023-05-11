@@ -28,7 +28,7 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
             {
                 var manager = scope.Resolve<RegisteredLayoutPanel>();
 
-                var layout = panel is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorableShowStrategy.Left;
+                var layout = panel is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorSide.Left;
 
                 await manager.AddOrOpen(dockingManager, panel.Id, panel.Title, panel, layout);
             }

@@ -74,10 +74,10 @@
                 
                 <LayoutRoot.LeftSide>
                     <LayoutAnchorSide>
-                        <LayoutAnchorGroup x:Name="LeftGroup">
+                        <LayoutAnchorGroup>
                             <LayoutAnchorable
                                 Title="Tool Window 2"
-                                ContentId="toolWindow1">
+                                ContentId="toolWindow2">
                                 <StackPanel MinHeight="450">
                                     <TextBox Text="2" />
                                 </StackPanel>
@@ -86,6 +86,27 @@
                     </LayoutAnchorSide>
                 </LayoutRoot.LeftSide>
 
+                <LayoutRoot.BottomSide>
+                    <LayoutAnchorSide>
+                        <LayoutAnchorGroup>
+                        </LayoutAnchorGroup>
+                    </LayoutAnchorSide>
+                </LayoutRoot.BottomSide>
+
+                <LayoutRoot.RightSide>
+                    <LayoutAnchorSide>
+                        <LayoutAnchorGroup>
+                        </LayoutAnchorGroup>
+                    </LayoutAnchorSide>
+                </LayoutRoot.RightSide>
+
+
+                <LayoutRoot.TopSide>
+                    <LayoutAnchorSide>
+                        <LayoutAnchorGroup>
+                        </LayoutAnchorGroup>
+                    </LayoutAnchorSide>
+                </LayoutRoot.TopSide>
             </LayoutRoot>
 
 

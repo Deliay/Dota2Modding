@@ -57,7 +57,7 @@ namespace EmberWpfCore.ViewModel
             CollectionChanged?.Invoke(sender, e);
         }
 
-        public async ValueTask AddOrOpen<T>(DockingManager dockingManager, string Id, string Title, T control, AnchorableShowStrategy showStrategy) where T : ILayoutedPanel
+        public async ValueTask AddOrOpen<T>(DockingManager dockingManager, string Id, string Title, T control, AnchorSide pos) where T : ILayoutedPanel
         {
             await windowManager.BeginUIThreadScope(() =>
             {
@@ -75,8 +75,17 @@ namespace EmberWpfCore.ViewModel
                         Content = control,
                     };
                     items.Add(item);
-                    item.AddToLayout(dockingManager, showStrategy);
-                    item.ToggleAutoHide();
+                    item.AddToLayout(dockingManager, AnchorableShowStrategy.Most);
+                    var pane = pos switch
+                    {
+                        AnchorSide.Left => dockingManager.Layout.LeftSide,
+                        AnchorSide.Right => dockingManager.Layout.RightSide,
+                        AnchorSide.Top => dockingManager.Layout.TopSide,
+                        _ => dockingManager.Layout.BottomSide,
+                    };
+                    var group = pane.Descendents().OfType<LayoutAnchorGroup>().FirstOrDefault()!;
+
+                    group.InsertChildAt(0, item);
                 }
             });
         }

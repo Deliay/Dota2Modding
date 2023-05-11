@@ -9,6 +9,6 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
 {
     public interface IDefaultLayoutStrategy
     {
-        public AnchorableShowStrategy DefaultStrategy { get; }
+        public AnchorSide DefaultStrategy { get; }
     }
 }

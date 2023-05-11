@@ -31,7 +31,7 @@ namespace Dota2Modding.VisualEditor.GUI.Components.Consoles
 
         public string Id => "491F3404-6E28-4898-A054-E9D6B4262CBF";
         public string Title => "Console";
-        public AnchorableShowStrategy DefaultStrategy => AnchorableShowStrategy.Bottom | AnchorableShowStrategy.Most;
+        public AnchorSide DefaultStrategy => AnchorSide.Bottom;
 
         public int InitialHeight => 200;
 
