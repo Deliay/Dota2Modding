@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using EmberKernel;
+using EmberKernel.Plugins.Components;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using System;
 using System.Collections.Generic;
@@ -52,15 +53,23 @@ namespace EmberCore.KernelServices.UI.View
             Application.Shutdown();
         }
 
-        private async ValueTask RegisterWindow<TWindow>(CancellationToken token = default)
+        private async ValueTask RegisterWindow<TWindow>(ILifetimeScope scope, CancellationToken token = default)
             where TWindow : Window, IHostedWindow, new()
         {
             await InitSemaphore.WaitAsync(token);
             try
             {
-                if (!RunningWindows.ContainsKey(typeof(TWindow)))
+                var type = typeof(TWindow);
+                if (!RunningWindows.ContainsKey(type))
                 {
-                    var window = await Application.Dispatcher.InvokeAsync(() => new TWindow());
+                    var window = await Application.Dispatcher.InvokeAsync(() =>
+                    {
+                        if (type.IsAssignableTo<IComponent>())
+                        {
+                            return scope.Resolve<TWindow>();
+                        }
+                        return new TWindow();
+                    });
                     RunningWindows.Add(typeof(TWindow), window);
                 }
             }
@@ -77,16 +86,16 @@ namespace EmberCore.KernelServices.UI.View
             await Application.Dispatcher.InvokeAsync(() => scope(app));
         }
 
-        public void Register<TWindow>()
+        public void Register<TWindow>(ILifetimeScope scope)
             where TWindow : Window, IHostedWindow, new()
         {
-            RegisterWindow<TWindow>().AsTask().Wait();
+            RegisterWindow<TWindow>(scope).AsTask().Wait();
         }
 
-        public async ValueTask RegisterAsync<TWindow>(CancellationToken token = default)
+        public async ValueTask RegisterAsync<TWindow>(ILifetimeScope scope, CancellationToken token = default)
             where TWindow : Window, IHostedWindow, new()
         {
-            await RegisterWindow<TWindow>(token);
+            await RegisterWindow<TWindow>(scope, token);
         }
 
         public async ValueTask InitializeAsync<TWindow>(ILifetimeScope initializeScope)

@@ -7,11 +7,11 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="EmberKernel" Version="1.0.1.1" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
+	  <ProjectReference Include="..\EmberKernel\EmberKernel.csproj">
+	    <Private>False</Private>
+	    <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+	  </ProjectReference>
 	</ItemGroup>
 
 </Project>

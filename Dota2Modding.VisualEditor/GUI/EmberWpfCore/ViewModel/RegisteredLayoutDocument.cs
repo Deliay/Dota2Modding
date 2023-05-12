@@ -1,5 +1,6 @@
 ﻿using AvalonDock.Layout;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
+using EmberKernel;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
 using System;
@@ -14,7 +15,7 @@ using System.Windows.Controls;
 
 namespace EmberWpfCore.ViewModel
 {
-    public class RegisteredLayoutDocument :  INotifyCollectionChanged, INotifyPropertyChanged, EmberKernel.Plugins.Components.IComponent
+    public class RegisteredLayoutDocument :  INotifyCollectionChanged, INotifyPropertyChanged, IKernelService
     {
         private class LayoutDocuments : ObservableCollection<LayoutDocument>
         {

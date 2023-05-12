@@ -7,6 +7,7 @@ using EmberCore.KernelServices.Plugins;
 using EmberCore.KernelServices.UI.View;
 using EmberKernel;
 using EmberKernel.Services.UI.Extension;
+using EmberWpfCore.ViewModel;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Serilog;
@@ -34,7 +35,7 @@ static string GetLoggerFilePath(IConfigurationSection config)
     return Path.Combine(loggerPath, loggerFileName);
 }
 
-new KernelBuilder()
+await (new KernelBuilder()
     .UseConfiguration((cfg) =>
     {
         cfg.SetBasePath(Directory.GetCurrentDirectory());
@@ -68,5 +69,7 @@ new KernelBuilder()
     .UseMvvmInterface(mvvm => mvvm.UseConfigurationModel())
     .UseKernelService<EditorMenuManager, IMenuItemManager>()
     .UseKernelService<DocumentManager>()
+    .UseKernelService<RegisteredLayoutPanel>()
+    .UseKernelService<RegisteredLayoutDocument>()
     .Build()
-    .Run();
+    .RunAsync());

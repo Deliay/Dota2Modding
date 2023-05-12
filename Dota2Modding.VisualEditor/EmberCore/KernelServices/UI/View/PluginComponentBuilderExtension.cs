@@ -17,13 +17,14 @@ namespace EmberCore.KernelServices.UI.View
             }
             throw new NullReferenceException();
         }
-        public static void ConfigureWpfWindow<T>(this IComponentBuilder builder) where T : Window, IHostedWindow, new()
+        public static void ConfigureWpfWindow<T>(this IComponentBuilder builder) where T : Window, IHostedWindow, IComponent, new()
         {
-            Resolve(builder.ParentScope).Register<T>();
+            builder.ConfigureComponent<T>().AsSelf().SingleInstance();
         }
 
         public static ValueTask InitializeWpfWindow<T>(this ILifetimeScope scope) where T : Window, IHostedWindow, new()
         {
+            Resolve(scope).Register<T>(scope);
             return Resolve(scope).InitializeAsync<T>(scope);
         }
 

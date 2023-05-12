@@ -50,8 +50,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
                 EnsurePathExists = true,
                 DefaultDirectory = dota2 is not null ? Path.Combine(dota2.Path, "game", "dota_addons") : null,
             };
-            var ext = new CommonFileDialogFilter();
-            ext.DisplayName = "AddonInfo Files";
+            var ext = new CommonFileDialogFilter
+            {
+                DisplayName = "AddonInfo Files"
+            };
             ext.Extensions.Add("txt_c;addoninfo.txt");
             dialog.Filters.Add(ext);
 

@@ -6,11 +6,15 @@
 	  <Nullable>enable</Nullable>
   </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="EmberKernel" Version="1.0.1.1" />
-	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj" />
+		<ProjectReference Include="..\Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj">
+			<Private>False</Private>
+			<CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+		</ProjectReference>
+		<ProjectReference Include="..\EmberKernel\EmberKernel.csproj">
+			<Private>False</Private>
+			<CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+		</ProjectReference>
 	</ItemGroup>
 </Project>

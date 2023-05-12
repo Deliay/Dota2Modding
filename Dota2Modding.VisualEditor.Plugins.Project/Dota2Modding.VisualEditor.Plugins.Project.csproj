@@ -22,6 +22,10 @@
     </ProjectReference>
     <ProjectReference Include="..\Dota2Modding.VisualEditor.GUI.Abstraction\Dota2Modding.VisualEditor.GUI.Abstraction.csproj" />
     <ProjectReference Include="..\Dota2Modding.VisualEditor.Plugins.Project.Abstraction\Dota2Modding.VisualEditor.Plugins.Project.Abstraction.csproj" />
+	  <ProjectReference Include="..\EmberKernel\EmberKernel.csproj">
+	    <Private>False</Private>
+	    <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+	  </ProjectReference>
   </ItemGroup>
 
 	<Target Name="PostBuild" AfterTargets="PostBuildEvent">

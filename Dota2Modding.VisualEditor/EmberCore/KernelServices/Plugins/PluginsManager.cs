@@ -1,10 +1,12 @@
 ﻿using Autofac;
 using Autofac.Util;
+using Dota2Modding.VisualEditor.Events;
 using EmberCore.KernelServices.UI.View;
 using EmberKernel.Plugins;
 using EmberKernel.Plugins.Attributes;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Plugins.Models;
+using EmberKernel.Services.EventBus;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -123,6 +125,8 @@ namespace EmberCore.KernelServices.Plugins
                 await component.Start();
             }
             Logger.LogInformation($"Done execute entries...");
+            var eventBus = this.PluginLayerScope.ResolveOptional<IEventBus>();
+            eventBus?.Publish(new AllPluginResolvedEvent());
         }
 
         public IEnumerable<Type> Resolve(Assembly assembly)

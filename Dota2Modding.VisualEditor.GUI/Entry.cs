@@ -1,10 +1,12 @@
 ﻿using Autofac;
+using Dota2Modding.VisualEditor.Events;
 using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu.Plugins;
 using Dota2Modding.VisualEditor.GUI.Components.Consoles;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using EmberCore.KernelServices.UI.View;
+using EmberKernel;
 using EmberKernel.Plugins;
 using EmberKernel.Plugins.Attributes;
 using EmberKernel.Plugins.Components;
@@ -27,10 +29,10 @@ namespace Dota2Modding.VisualEditor.GUI
     {
         public void BuildApplication(Application application)
         {
-            application.Resources.MergedDictionaries.Add(new ResourceDictionary
-            {
-                Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor.GUI;component/shared.xaml", UriKind.Absolute)
-            });
+            //application.Resources.MergedDictionaries.Add(new ResourceDictionary
+            //{
+            //    Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor;GUI/shared.xaml", UriKind.Absolute)
+            //});
         }
 
         public override void BuildComponents(IComponentBuilder builder)
@@ -43,8 +45,6 @@ namespace Dota2Modding.VisualEditor.GUI
             builder.ConfigureComponent<PluginMenu>().AsSelf().SingleInstance();
             builder.ConfigureComponent<MenuItemExit>().AsSelf().SingleInstance();
             builder.ConfigureComponent<InstalledPluginsMenu>().AsSelf().SingleInstance();
-            builder.ConfigureComponent<RegisteredLayoutPanel>().AsSelf().SingleInstance();
-            builder.ConfigureComponent<RegisteredLayoutDocument>().AsSelf().SingleInstance();
             builder.ConfigureComponent<ConsolePanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
         }
 
@@ -57,6 +57,8 @@ namespace Dota2Modding.VisualEditor.GUI
             await scope.InitializeMenuItem<PluginMenu>();
             await scope.InitializeMenuItem<MenuItemExit>();
             await scope.InitializeMenuItem<InstalledPluginsMenu>();
+            await scope.RegisterPanel<ConsolePanel>();
+            scope.Subscription<AllPluginResolvedEvent, MainWindow>();
         }
 
         public override async ValueTask Uninitialize(ILifetimeScope scope)
@@ -68,6 +70,7 @@ namespace Dota2Modding.VisualEditor.GUI
             await scope.UnInitializeMenuItem<PluginMenu>();
             await scope.UnInitializeMenuItem<PluginMenu>();
             await scope.UnInitializeMenuItem<InstalledPluginsMenu>();
+            scope.Unsubscription<AllPluginResolvedEvent, MainWindow>();
         }
     }
 }

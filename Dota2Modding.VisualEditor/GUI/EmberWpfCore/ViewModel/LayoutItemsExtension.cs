@@ -3,6 +3,7 @@ using AvalonDock;
 using AvalonDock.Layout;
 using EmberKernel.Services.UI.Mvvm.Extension;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
+using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using EmberWpfCore.ViewModel;
 using System;
 using System.Collections.Generic;
@@ -15,24 +16,53 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
 {
     public static class LayoutItemsExtension
     {
-        public static async ValueTask RegisterPanel<T>(this ILifetimeScope scope, DockingManager dockingManager, T obj) where T : ILayoutedObject
+        public static async ValueTask RegisterPanel<T>(this ILifetimeScope scope) where T : ILayoutedObject
+        {
+            var wm = scope.Resolve<IWindowManager>();
+            await wm.BeginUIThreadScope(async () =>
+            {
+                var obj = scope.Resolve<T>();
+                await obj.Initialize(scope);
+                if (obj is ILayoutedDocument)
+                {
+                    var manager = scope.Resolve<RegisteredLayoutDocument>();
+
+                    manager.AddOrOpen(obj.Id, obj.Title, obj);
+                }
+                else if (obj is ILayoutedPanel panel)
+                {
+                    var manager = scope.Resolve<RegisteredLayoutPanel>();
+
+                    var pos = panel is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorSide.Left;
+
+                    var anchorable = await manager.AddOrOpen(panel.Id, panel.Title, panel);
+
+                }
+            });
+        }
+
+        public static async ValueTask RegisterPanel<T>(this ILifetimeScope scope, T obj) where T : ILayoutedObject
         {
             await obj.Initialize(scope);
-            if (obj is ILayoutedDocument)
+            var wm = scope.Resolve<IWindowManager>();
+            await wm.BeginUIThreadScope(async () =>
             {
-                var manager = scope.Resolve<RegisteredLayoutDocument>();
+                if (obj is ILayoutedDocument)
+                {
+                    var manager = scope.Resolve<RegisteredLayoutDocument>();
 
-                manager.AddOrOpen(obj.Id, obj.Title, obj);
-            }
-            else if (obj is ILayoutedPanel panel)
-            {
-                var manager = scope.Resolve<RegisteredLayoutPanel>();
+                    manager.AddOrOpen(obj.Id, obj.Title, obj);
+                }
+                else if (obj is ILayoutedPanel panel)
+                {
+                    var manager = scope.Resolve<RegisteredLayoutPanel>();
 
-                var layout = panel is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorSide.Left;
+                    var pos = panel is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorSide.Left;
 
-                await manager.AddOrOpen(dockingManager, panel.Id, panel.Title, panel, layout);
-            }
+                    var anchorable = await manager.AddOrOpen(panel.Id, panel.Title, panel);
 
+                }
+            });
         }
     }
 }
