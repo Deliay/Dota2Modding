@@ -28,6 +28,8 @@ using Dota2Modding.VisualEditor.Events;
 using EmberKernel.Plugins.Components;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
+using Microsoft.Extensions.Options;
+using Dota2Modding.VisualEditor.GUI.Abstraction;
 
 namespace Dota2Modding.VisualEditor.GUI
 {
@@ -45,6 +47,7 @@ namespace Dota2Modding.VisualEditor.GUI
         private IWindowManager WindowManager { get; set; }
         private IMenuItemManager MenuItemManager { get; set; }
         private ILogger<MainWindow> Logger { get; set; }
+        private IOptions<MainWindowConfiguration> Config { get; set; }
 
         public void InsertToLayout(LayoutAnchorable anchorable)
         {
@@ -79,6 +82,7 @@ namespace Dota2Modding.VisualEditor.GUI
             WindowManager = scope.Resolve<IWindowManager>();
             MenuItemManager = scope.Resolve<IMenuItemManager>();
             Logger = scope.Resolve<ILogger<MainWindow>>();
+            Config = scope.Resolve<IOptions<MainWindowConfiguration>>();
             menu.ItemsSource = MenuItemManager;
             Show();
             var panelManager = scope.Resolve<RegisteredLayoutPanel>();
@@ -129,6 +133,8 @@ namespace Dota2Modding.VisualEditor.GUI
         {
             await WindowManager.BeginUIThreadScope(() =>
             {
+                var config = Config.Value;
+                this.Width = config.Width; this.Height = config.Height;
                 if (File.Exists("layout.xml"))
                 {
                     Logger.LogInformation("Restoring layout");

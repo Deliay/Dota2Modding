@@ -1,5 +1,6 @@
 ﻿using Autofac;
 using Dota2Modding.VisualEditor.Events;
+using Dota2Modding.VisualEditor.GUI.Abstraction;
 using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu.Plugins;
@@ -37,6 +38,7 @@ namespace Dota2Modding.VisualEditor.GUI
 
         public override void BuildComponents(IComponentBuilder builder)
         {
+            builder.UseConfigurationModel<MainWindowConfiguration>("MainWindow");
             builder.ConfigureComponent<ConsoleObservableSubscriber>().AsSelf().SingleInstance();
             builder.ConfigureWpfWindow<MainWindow>();
             builder.ConfigureUIComponent<PluginsTab>();
