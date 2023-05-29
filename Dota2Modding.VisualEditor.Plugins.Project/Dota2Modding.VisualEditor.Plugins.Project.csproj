@@ -9,12 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="HandyControl" Version="3.4.0" />
     <PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
     <PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.6.0" />
     <PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Dota2Modding.Common\Dota2Modding.Common.csproj" />
     <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
     <ProjectReference Include="..\Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj">
       <Private>False</Private>

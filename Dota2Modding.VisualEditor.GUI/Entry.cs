@@ -6,6 +6,7 @@ using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu.Plugins;
 using Dota2Modding.VisualEditor.GUI.Components.Consoles;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
+using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberCore.KernelServices.UI.View;
 using EmberKernel;
 using EmberKernel.Plugins;
@@ -30,15 +31,15 @@ namespace Dota2Modding.VisualEditor.GUI
     {
         public void BuildApplication(Application application)
         {
-            //application.Resources.MergedDictionaries.Add(new ResourceDictionary
-            //{
-            //    Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor;GUI/shared.xaml", UriKind.Absolute)
-            //});
+            application.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor.GUI;component/shared.xaml", UriKind.Absolute)
+            });
         }
 
         public override void BuildComponents(IComponentBuilder builder)
         {
-            builder.UseConfigurationModel<MainWindowConfiguration>("MainWindow");
+            builder.UsePluginOptionsModel<Entry, MainWindowConfiguration>();
             builder.ConfigureComponent<ConsoleObservableSubscriber>().AsSelf().SingleInstance();
             builder.ConfigureWpfWindow<MainWindow>();
             builder.ConfigureUIComponent<PluginsTab>();
@@ -61,6 +62,8 @@ namespace Dota2Modding.VisualEditor.GUI
             await scope.InitializeMenuItem<InstalledPluginsMenu>();
             await scope.RegisterPanel<ConsolePanel>();
             scope.Subscription<AllPluginResolvedEvent, MainWindow>();
+            scope.Subscription<ProjectLoadedEvent, MainWindow>();
+            scope.Subscription<ProjectUnloadEvent, MainWindow>();
         }
 
         public override async ValueTask Uninitialize(ILifetimeScope scope)
@@ -73,6 +76,8 @@ namespace Dota2Modding.VisualEditor.GUI
             await scope.UnInitializeMenuItem<PluginMenu>();
             await scope.UnInitializeMenuItem<InstalledPluginsMenu>();
             scope.Unsubscription<AllPluginResolvedEvent, MainWindow>();
+            scope.Unsubscription<ProjectLoadedEvent, MainWindow>();
+            scope.Unsubscription<ProjectUnloadEvent, MainWindow>();
         }
     }
 }

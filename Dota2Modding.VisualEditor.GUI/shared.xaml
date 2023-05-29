@@ -12,5 +12,7 @@
 				BasedOn="{StaticResource {x:Type LayoutAnchorableFloatingWindowControl}}"
 				TargetType="{x:Type LayoutAnchorableFloatingWindowControl}" />
         </ResourceDictionary>
+        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/SkinDefault.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Theme.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

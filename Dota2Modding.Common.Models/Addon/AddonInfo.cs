@@ -10,46 +10,35 @@ using ValveKeyValue;
 
 namespace Dota2Modding.Common.Models.Addon
 {
-    public struct AddonInfo
+    public class AddonInfo : BasicObject
     {
-        public List<string> Maps { get; set; }
-        public bool MinimalPrecache { get; set; }
-        public bool IsPlayable { get; set; }
-        public bool EventGame { get; set; }
-
-        public struct MapConfig
+        public AddonInfo(KVValue value) : base("AddonInfo", value)
         {
-            public int? MaxPlayers { get; set; }
+        }
+        public AddonInfo(string name, KVValue value) : base(name, value)
+        {
         }
 
-        public Dictionary<string, MapConfig> MapConfigs { get; set; }
 
-        public static bool TryParse(KVObject kv, out AddonInfo addonInfo)
+        public string Maps
         {
-            addonInfo = new();
-            if (kv.Name != "AddonInfo") throw new InvalidDataException($"Invalid kv format: {kv.Name}");
-
-            addonInfo = new AddonInfo()
-            {
-                Maps = kv["maps"].ToString(CultureInfo.CurrentCulture).Split(' ').ToList(),
-                MinimalPrecache = kv["MinimalPrecache"].ToBoolean(CultureInfo.CurrentCulture),
-                IsPlayable = kv["IsPlayable"].ToBoolean(CultureInfo.CurrentCulture),
-                EventGame = kv["EventGame"].ToBoolean(CultureInfo.CurrentCulture),
-                MapConfigs = new(),
-            };
-
-            foreach (var map in addonInfo.Maps)
-            {
-                if (kv[map] is not null)
-                {
-                    addonInfo.MapConfigs.Add(map, new MapConfig
-                    {
-                        MaxPlayers = kv[map]["MaxPlayers"]?.ToInt32(CultureInfo.CurrentCulture),
-                    });
-                }
-            }
-
-            return true;
+            get => base["maps"].ToString(CultureInfo.CurrentCulture);
+            set => base["maps"] = value;
+        }
+        public bool MinimalPrecache
+        {
+            get => base["MinimalPrecache"].ToBoolean(CultureInfo.CurrentCulture);
+            set => base["MinimalPrecache"] = value ? 1 : 0;
+        }
+        public bool IsPlayable
+        {
+            get => base["IsPlayable"].ToBoolean(CultureInfo.CurrentCulture);
+            set => base["IsPlayable"] = value ? 1 : 0;
+        }
+        public bool EventGame
+        {
+            get => base["EventGame"].ToBoolean(CultureInfo.CurrentCulture);
+            set => base["EventGame"] = value ? 1 : 0;
         }
     }
 }

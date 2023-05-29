@@ -13,5 +13,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events
         public string WorkingDirectory { get; set; }
 
         public AddonInfo AddonInfo { get; set; }
+
+        public string AddonInfoFile { get; set; }
     }
 }

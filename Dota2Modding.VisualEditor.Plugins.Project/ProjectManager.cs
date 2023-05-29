@@ -13,6 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
+using Dota2Modding.Common.Models.Parser;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
@@ -41,16 +42,15 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             try
             {
                 var obj = KvLoader.Parse(file);
-                if (AddonInfo.TryParse(obj, out var info))
+
+                DotaProject = new(file, new AddonInfo(obj.Name, obj.Value));
+                logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
+                await eventBus.Publish(new ProjectLoadedEvent()
                 {
-                    DotaProject = new(file, info);
-                    logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
-                    await eventBus.Publish(new ProjectLoadedEvent()
-                    {
-                        AddonInfo = DotaProject.AddonInfo,
-                        WorkingDirectory = DotaProject.WorkingDirectory,
-                    }, default);
-                }
+                    AddonInfo = DotaProject.AddonInfo,
+                    WorkingDirectory = DotaProject.WorkingDirectory,
+                    AddonInfoFile = file,
+                }, default);
             }
             catch (Exception e)
             {

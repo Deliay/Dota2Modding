@@ -1,17 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-	  <OutputType>Library</OutputType>
-	  <TargetFramework>net7.0</TargetFramework>
-	  <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<TargetFramework>net7.0</TargetFramework>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
-	  <ProjectReference Include="..\EmberKernel\EmberKernel.csproj">
-	    <Private>False</Private>
-	    <CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
-	  </ProjectReference>
+		<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
+	</ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
+		<ProjectReference Include="..\EmberKernel\EmberKernel.csproj">
+			<Private>False</Private>
+			<CopyLocalSatelliteAssemblies>False</CopyLocalSatelliteAssemblies>
+		</ProjectReference>
 	</ItemGroup>
 
 </Project>

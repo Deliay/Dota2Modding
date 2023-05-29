@@ -10,6 +10,7 @@ using EmberKernel.Services.EventBus;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
@@ -38,21 +39,41 @@ namespace EmberCore.KernelServices.Plugins
             WpfUIService = wpfUIService;
         }
 
-        public void BuildScope(ContainerBuilder builder)
+        private List<Assembly> Build(IEnumerable<Assembly> assemblies, ContainerBuilder builder)
         {
-            var loaders = Resolver.EnumerateLoaders();
-            foreach (var loader in loaders)
+            List<Assembly> failed = new();
+            foreach (var assembly in assemblies)
             {
-                var assemblies = loader.LoadAssemblies();
-                foreach (var assembly in assemblies)
+                try
                 {
-                    foreach (var type in Resolve(assembly))
+                    foreach (var type in Resolve(assembly).ToList())
                     {
                         var pluginDesciptor = type.GetCustomAttribute<EmberPluginAttribute>().ToString();
                         builder.RegisterType(type).Named(pluginDesciptor, type).SingleInstance();
 
                         LoadedTypes.AddLast(type);
                     }
+                }
+                catch (Exception e)
+                {
+                    failed.Add(assembly);
+                }
+            }
+
+            return failed;
+        }
+
+        public void BuildScope(ContainerBuilder builder)
+        {
+            var loaders = Resolver.EnumerateLoaders();
+            foreach (var loader in loaders)
+            {
+                var assemblies = loader.LoadAssemblies();
+                var misorderedAsm = Build(assemblies, builder);
+                var retryCount = 0;
+                while (misorderedAsm.Count > 0 && ++retryCount < 5)
+                {
+                    misorderedAsm = Build(misorderedAsm, builder);
                 }
             }
         }

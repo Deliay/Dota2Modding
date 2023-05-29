@@ -12,4 +12,8 @@
     <PackageReference Include="ValveResourceFormat" Version="0.3.2.1621" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
+  </ItemGroup>
+
 </Project>

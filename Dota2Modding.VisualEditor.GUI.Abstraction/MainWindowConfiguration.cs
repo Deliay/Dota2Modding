@@ -8,7 +8,8 @@ namespace Dota2Modding.VisualEditor.GUI.Abstraction
 {
     public class MainWindowConfiguration
     {
-        public float Width { get; set; }
-        public float Height { get; set; }
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public string LastProject { get; set; } = string.Empty;
     }
 }

@@ -30,13 +30,20 @@ using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using Microsoft.Extensions.Options;
 using Dota2Modding.VisualEditor.GUI.Abstraction;
+using EmberKernel.Services.Configuration;
+using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
+using EmberKernel.Services.EventBus;
+using HandyControl.Tools;
 
 namespace Dota2Modding.VisualEditor.GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IHostedWindow, IEventHandler<AllPluginResolvedEvent>, IComponent
+    public partial class MainWindow : Window, IHostedWindow, IComponent,
+        IEventHandler<AllPluginResolvedEvent>,
+        IEventHandler<ProjectLoadedEvent>,
+        IEventHandler<ProjectUnloadEvent>
     {
         public MainWindow()
         {
@@ -47,7 +54,28 @@ namespace Dota2Modding.VisualEditor.GUI
         private IWindowManager WindowManager { get; set; }
         private IMenuItemManager MenuItemManager { get; set; }
         private ILogger<MainWindow> Logger { get; set; }
-        private IOptions<MainWindowConfiguration> Config { get; set; }
+        private IPluginOptions<Entry, MainWindowConfiguration> Config { get; set; }
+        private IEventBus EventBus { get; set; }
+
+        public async ValueTask Initialize(ILifetimeScope scope)
+        {
+            Kernel = scope.Resolve<Kernel>();
+            WindowManager = scope.Resolve<IWindowManager>();
+            MenuItemManager = scope.Resolve<IMenuItemManager>();
+            Logger = scope.Resolve<ILogger<MainWindow>>();
+            Config = scope.Resolve<IPluginOptions<Entry, MainWindowConfiguration>>();
+            EventBus = scope.Resolve<IEventBus>();
+            menu.ItemsSource = MenuItemManager;
+            Show();
+            var panelManager = scope.Resolve<RegisteredLayoutPanel>();
+            foreach (var anchorable in panelManager.Items)
+            {
+                InsertToLayout(anchorable);
+            }
+            panelManager.CollectionChanged += PanelManager_CollectionChanged;
+            ConfigHelper.Instance.SetWindowDefaultStyle();
+            ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
+        }
 
         public void InsertToLayout(LayoutAnchorable anchorable)
         {
@@ -76,24 +104,7 @@ namespace Dota2Modding.VisualEditor.GUI
             anchorable.Parent.RemoveChild(anchorable);
         }
 
-        public async ValueTask Initialize(ILifetimeScope scope)
-        {
-            Kernel = scope.Resolve<Kernel>();
-            WindowManager = scope.Resolve<IWindowManager>();
-            MenuItemManager = scope.Resolve<IMenuItemManager>();
-            Logger = scope.Resolve<ILogger<MainWindow>>();
-            Config = scope.Resolve<IOptions<MainWindowConfiguration>>();
-            menu.ItemsSource = MenuItemManager;
-            Show();
-            var panelManager = scope.Resolve<RegisteredLayoutPanel>();
-            foreach (var anchorable in panelManager.Items)
-            {
-                InsertToLayout(anchorable);
-            }
-            panelManager.CollectionChanged += PanelManager_CollectionChanged;
-        }
-
-        public ValueTask Uninitialize(ILifetimeScope scope)
+        public async ValueTask Uninitialize(ILifetimeScope scope)
         {
             var panelManager = scope.Resolve<RegisteredLayoutPanel>();
             panelManager.CollectionChanged -= PanelManager_CollectionChanged;
@@ -101,7 +112,10 @@ namespace Dota2Modding.VisualEditor.GUI
             using var writer = new StreamWriter("layout.xml");
             serializer.Serialize(writer);
             Hide();
-            return default;
+            var cfg = Config.Create();
+            cfg.Width = this.Width;
+            cfg.Height = this.Height;
+            await Config.SaveAsync(cfg);
         }
 
         private void PanelManager_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -129,12 +143,24 @@ namespace Dota2Modding.VisualEditor.GUI
             e.Cancel = true;
         }
 
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+        }
+
         public async ValueTask Handle(AllPluginResolvedEvent @event)
         {
             await WindowManager.BeginUIThreadScope(() =>
             {
-                var config = Config.Value;
-                this.Width = config.Width; this.Height = config.Height;
+                var config = Config.Create();
+                if (config.Width > 0 && config.Height > 0)
+                {
+                    this.Width = config.Width; this.Height = config.Height;
+                }
+                if (config.LastProject.Length > 0)
+                {
+                    EventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = config.LastProject });
+                }
                 if (File.Exists("layout.xml"))
                 {
                     Logger.LogInformation("Restoring layout");
@@ -146,9 +172,18 @@ namespace Dota2Modding.VisualEditor.GUI
             });
         }
 
-        public void Dispose()
+        public async ValueTask Handle(ProjectLoadedEvent @event)
         {
-            GC.SuppressFinalize(this);
+            var cfg = Config.Create();
+            cfg.LastProject = @event.AddonInfoFile;
+            await Config.SaveAsync(cfg);
+        }
+
+        public async ValueTask Handle(ProjectUnloadEvent @event)
+        {
+            var cfg = Config.Create();
+            cfg.LastProject = string.Empty;
+            await Config.SaveAsync(cfg);
         }
     }
 }

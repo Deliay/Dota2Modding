@@ -9,6 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Dota2Modding.Common\Dota2Modding.Common.csproj" />
+	  <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
+	<PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.6.0" />
   </ItemGroup>
 
 </Project>
