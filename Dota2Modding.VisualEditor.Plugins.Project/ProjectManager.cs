@@ -23,11 +23,15 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
         private readonly IEventBus eventBus;
         private readonly ILogger<ProjectManager> logger;
+        private readonly Dota2Locator dota2Locator;
+        private readonly ILogger<DotaProject> dotaProjLogger;
 
-        public ProjectManager(IEventBus eventBus, ILogger<ProjectManager> logger)
+        public ProjectManager(IEventBus eventBus, ILogger<ProjectManager> logger, Dota2Locator dota2Locator, ILogger<DotaProject> dotaProjLogger)
         {
             this.eventBus = eventBus;
             this.logger = logger;
+            this.dota2Locator = dota2Locator;
+            this.dotaProjLogger = dotaProjLogger;
         }
 
         public void Dispose()
@@ -43,11 +47,13 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             {
                 var obj = KvLoader.Parse(file);
 
-                DotaProject = new(file, new AddonInfo(obj.Name, obj.Value));
+                DotaProject = new(dotaProjLogger, file, new AddonInfo(obj.Name, obj.Value), dota2Locator);
                 logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
+
+                DotaProject.InitBasePackages();
+
                 await eventBus.Publish(new ProjectLoadedEvent()
                 {
-                    AddonInfo = DotaProject.AddonInfo,
                     WorkingDirectory = DotaProject.WorkingDirectory,
                     AddonInfoFile = file,
                 }, default);

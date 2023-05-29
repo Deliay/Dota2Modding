@@ -1,7 +1,10 @@
 ﻿using Autofac;
 using AvalonDock.Layout;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
+using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
+using EmberKernel.Services.EventBus.Handlers;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
+using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -22,8 +25,13 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
     /// <summary>
     /// Interaction logic for AddonInfoPanel.xaml
     /// </summary>
-    public partial class AddonInfoPanel : UserControl, IViewComponent, ILayoutedPanel, IDefaultLayoutStrategy
+    public partial class AddonInfoPanel : UserControl,
+        IViewComponent, ILayoutedPanel, IDefaultLayoutStrategy,
+        IEventHandler<ProjectLoadedEvent>, IEventHandler<ProjectUnloadEvent>
     {
+        private ILifetimeScope scope;
+        private IWindowManager windowManager;
+
         public AddonInfoPanel()
         {
             InitializeComponent();
@@ -42,16 +50,34 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
             GC.SuppressFinalize(this);
         }
 
+        public async ValueTask Handle(ProjectLoadedEvent @event)
+        {
+            await windowManager.BeginUIThreadScope(() =>
+            {
+                var proj = scope.Resolve<ProjectManager>();
+                this.grid.SelectedObject = proj.DotaProject.AddonInfo;
+            });
+        }
+
+        public async ValueTask Handle(ProjectUnloadEvent @event)
+        {
+            await windowManager.BeginUIThreadScope(() =>
+            {
+                this.grid.SelectedObject = null!;
+            });
+        }
+
         public ValueTask Initialize(ILifetimeScope scope)
         {
-            var pm = scope.Resolve<ProjectManager>();
+            this.scope = scope;
+            this.windowManager = scope.Resolve<IWindowManager>();
 
             return default;
         }
 
         public ValueTask Uninitialize(ILifetimeScope scope)
         {
-            throw new NotImplementedException();
+            return default;
         }
     }
 }

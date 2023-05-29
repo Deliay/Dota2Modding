@@ -18,6 +18,9 @@ using System;
 using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using EmberKernel.Plugins.Attributes;
 using System.Xml.Linq;
+using EmberKernel.Services.UI.Mvvm.Extension;
+using Dota2Modding.VisualEditor.Plugins.Project.Components;
+using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
@@ -30,22 +33,34 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             builder.ConfigureComponent<ProjectManager>().AsSelf().SingleInstance();
             builder.ConfigureComponent<Dota2Locator>().AsSelf().SingleInstance();
             builder.ConfigureComponent<OpenProjectMenu>().AsSelf().SingleInstance();
+            builder.ConfigureComponent<AddonInfoPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
+            builder.ConfigureComponent<ProjectExplorer>().AsSelf().As<ILayoutedObject>().SingleInstance();
         }
 
         public override async ValueTask Initialize(ILifetimeScope scope)
         {
+            await scope.RegisterPanel<AddonInfoPanel>();
+            await scope.RegisterPanel<ProjectExplorer>();
             scope.Subscription<ProjectSelectedEvent, ProjectManager>();
             scope.Subscription<ProjectLoadedEvent, OpenProjectMenu>();
             scope.Subscription<ProjectUnloadEvent, OpenProjectMenu>();
+            scope.Subscription<ProjectLoadedEvent, AddonInfoPanel>();
+            scope.Subscription<ProjectUnloadEvent, AddonInfoPanel>();
+            scope.Subscription<ProjectLoadedEvent, ProjectExplorer>();
+            scope.Subscription<ProjectUnloadEvent, ProjectExplorer>();
             await scope.InitializeMenuItem<OpenProjectMenu>();
         }
 
         public override async ValueTask Uninitialize(ILifetimeScope scope)
         {
             await scope.UnInitializeMenuItem<OpenProjectMenu>();
+            scope.Unsubscription<ProjectSelectedEvent, ProjectManager>();
             scope.Unsubscription<ProjectUnloadEvent, OpenProjectMenu>();
             scope.Unsubscription<ProjectLoadedEvent, OpenProjectMenu>();
-            scope.Unsubscription<ProjectSelectedEvent, ProjectManager>();
+            scope.Unsubscription<ProjectLoadedEvent, AddonInfoPanel>();
+            scope.Unsubscription<ProjectUnloadEvent, AddonInfoPanel>();
+            scope.Unsubscription<ProjectLoadedEvent, ProjectExplorer>();
+            scope.Unsubscription<ProjectUnloadEvent, ProjectExplorer>();
         }
     }
 }

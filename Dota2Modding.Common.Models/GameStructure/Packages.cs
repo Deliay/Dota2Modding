@@ -10,11 +10,7 @@ namespace Dota2Modding.Common.Models.GameStructure
 {
     public class Packages : IDisposable
     {
-        public Packages()
-        {
-        }
-
-        private readonly Folder root = new("", null!);
+        public Folder RootFolder { get; } = new("", null!);
         private readonly List<Entry> entries = new();
         private readonly Dictionary<string, HashSet<Entry>> entitySearchCache = new();
         private readonly Dictionary<Entry, Dictionary<Type, object>> entryExtraDataCache = new();
@@ -39,7 +35,7 @@ namespace Dota2Modding.Common.Models.GameStructure
                 entitySearchCache.Add(searchTxt, new() { entry });
             }
 
-            root.Add(entry.FullName, entry);
+            RootFolder.Add(entry.FullName, entry);
             entries.Add(entry);
         }
 

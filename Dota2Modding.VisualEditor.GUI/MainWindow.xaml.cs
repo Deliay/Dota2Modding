@@ -34,13 +34,14 @@ using EmberKernel.Services.Configuration;
 using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Services.EventBus;
 using HandyControl.Tools;
+using HandyControl.Controls;
 
 namespace Dota2Modding.VisualEditor.GUI
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, IHostedWindow, IComponent,
+    public partial class MainWindow : GlowWindow, IHostedWindow, IComponent,
         IEventHandler<AllPluginResolvedEvent>,
         IEventHandler<ProjectLoadedEvent>,
         IEventHandler<ProjectUnloadEvent>

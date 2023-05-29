@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Dota2Modding.Common.Models.GameStructure
 {
-    public class Folder : IEnumerable<Folder>
+    public class Folder : FolderView
     {
         public Folder(string name, Folder parent)
         {
@@ -22,6 +22,23 @@ namespace Dota2Modding.Common.Models.GameStructure
         public Dictionary<string, Folder> Folders { get; set; } = new();
 
         public List<Entry> Entries { get; set; } = new();
+
+        public FolderItemType ItemType => FolderItemType.Folder;
+
+        public string DisplayName => Name;
+
+        private IEnumerable<FolderView> EnumerateFolderView()
+        {
+            foreach (var folder in Folders.Values)
+            {
+                yield return folder;
+            }
+
+            foreach (var file in Entries)
+            {
+                yield return file;
+            }
+        }
 
         public void Add(string path, Entry entry)
         {
@@ -50,7 +67,7 @@ namespace Dota2Modding.Common.Models.GameStructure
             }
         }
 
-        public IEnumerator<Folder> GetEnumerator() => Folders.Values.GetEnumerator();
+        public IEnumerator<FolderView> GetEnumerator() => EnumerateFolderView().GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     }

@@ -24,6 +24,8 @@
 		<PackageReference Include="Serilog.Sinks.InMemory" Version="0.11.0" />
 		<PackageReference Include="Simple.Wpf.Terminal" Version="2.3.57" />
 		<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
+		<PackageReference Include="ValvePak" Version="1.4.0.53" />
+		<PackageReference Include="ValveResourceFormat" Version="0.3.2.1621" />
 		<PackageReference Include="WindowsAPICodePack" Version="7.0.4" />
 	</ItemGroup>
 
