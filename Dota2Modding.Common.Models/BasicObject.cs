@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Dota2Modding.Common.Models.Converters;
+using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,11 @@ namespace Dota2Modding.Common.Models
 {
     public class BasicObject : KVObject
     {
+        static BasicObject()
+        {
+            TypeDescriptor.AddProvider(new BasicObjectDescriptionProvider(typeof(BasicObject), typeof(BasicObject)), typeof(BasicObject));
+        }
+
         public BasicObject(string name, KVValue value) : base(name, value)
         {
         }
