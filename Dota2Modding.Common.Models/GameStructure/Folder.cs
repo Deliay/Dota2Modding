@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SteamDatabase.ValvePak;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +10,17 @@ namespace Dota2Modding.Common.Models.GameStructure
 {
     public class Folder : FolderView
     {
-        public Folder(string name, Folder parent)
+        public Folder(string name, Folder parent) : this(name, parent, false)
+        {
+        }
+        public Folder(string name, Folder parent, bool isVirtual)
         {
             Name = name;
             Parent = parent;
+            IsVirtual = isVirtual;
         }
+
+        public bool IsVirtual { get; }
 
         public Folder Parent { get; }
 
@@ -42,7 +49,8 @@ namespace Dota2Modding.Common.Models.GameStructure
 
         public void Add(string path, Entry entry)
         {
-            var spliiterPos = path.IndexOf('/');
+            var splitter = entry.Source.IsVpk ? Package.DirectorySeparatorChar : Path.DirectorySeparatorChar;
+            var spliiterPos = path.IndexOf(splitter);
             if (spliiterPos != -1)
             {
                 var aim = path[0..spliiterPos];
@@ -58,7 +66,7 @@ namespace Dota2Modding.Common.Models.GameStructure
                 }
                 else
                 {
-                    Folders.Add(aim, new(aim, this) { { resume, entry } });
+                    Folders.Add(aim, new(aim, this, entry.Source.IsVpk) { { resume, entry } });
                 }
             }
             else

@@ -23,22 +23,22 @@ namespace Dota2Modding.Common.Models.Addon
         public string Maps
         {
             get => base["maps"].ToString(CultureInfo.CurrentCulture);
-            set => base["maps"] = value;
+            set => SetValue("maps", value);
         }
         public bool MinimalPrecache
         {
             get => base["MinimalPrecache"].ToBoolean(CultureInfo.CurrentCulture);
-            set => base["MinimalPrecache"] = value ? 1 : 0;
+            set => SetValue("MinimalPrecache", value ? 1 : 0);
         }
         public bool IsPlayable
         {
             get => base["IsPlayable"].ToBoolean(CultureInfo.CurrentCulture);
-            set => base["IsPlayable"] = value ? 1 : 0;
+            set => SetValue("IsPlayable", value ? 1 : 0);
         }
         public bool EventGame
         {
             get => base["EventGame"].ToBoolean(CultureInfo.CurrentCulture);
-            set => base["EventGame"] = value ? 1 : 0;
+            set => SetValue("EventGame", value ? 1 : 0);
         }
     }
 }

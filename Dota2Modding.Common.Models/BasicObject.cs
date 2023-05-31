@@ -1,4 +1,6 @@
 ﻿using Dota2Modding.Common.Models.Converters;
+using Dota2Modding.Common.Models.GameStructure;
+using Dota2Modding.Common.Models.Parser;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -45,13 +47,34 @@ namespace Dota2Modding.Common.Models
         {
             return raw.Split('|')
                 .Select(item => item.Trim())
-                .Select(item => Enum.Parse<T>(item))
+                .Select(Enum.Parse<T>)
                 .ToHashSet();
         }
 
         public static string ToFlag<T>(IReadOnlySet<T> set) where T : struct
         {
             return string.Join(" | ", set);
+        }
+
+        protected void SetValue(string key, KVValue value)
+        {
+            base[key] = value;
+            if (Site is not null)
+            {
+                KvLoader.Save(Site.GetFullPath(), this);
+            }
+        }
+
+        private Entry Site { get; set; }
+
+        public void SetSite(Entry site)
+        {
+            if (site.Source.IsVpk)
+            {
+                throw new InvalidDataException("Can't set site to VPK entry");
+            }
+
+            Site = site;
         }
     }
 }

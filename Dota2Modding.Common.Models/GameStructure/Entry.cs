@@ -8,14 +8,13 @@ using System.Threading.Tasks;
 
 namespace Dota2Modding.Common.Models.GameStructure
 {
-    public class Entry : IFullContextSearchable, IIdentity, FolderView
+    public class Entry : IFullContextSearchable, FolderView
     {
         public Source Source { get; set; }
         public string FullName { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
         public string Extension { get; set; }
-        public ulong Id { get; set; }
 
         public FolderItemType ItemType => FolderItemType.File;
 
@@ -25,6 +24,8 @@ namespace Dota2Modding.Common.Models.GameStructure
         {
             return $"{FullName} {Name}.{Extension} {Extension} {Source.Path} {Path}";
         }
+
+        public string GetFullPath() => System.IO.Path.Combine(Source.Path, FullName);
 
         public IEnumerator<FolderView> GetEnumerator() => Enumerable.Empty<FolderView>().GetEnumerator();
 

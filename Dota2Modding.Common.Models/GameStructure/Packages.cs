@@ -12,6 +12,7 @@ namespace Dota2Modding.Common.Models.GameStructure
     {
         public Folder RootFolder { get; } = new("", null!);
         private readonly List<Entry> entries = new();
+        private readonly Dictionary<Source, HashSet<Entry>> sourcesCache = new();
         private readonly Dictionary<string, HashSet<Entry>> entitySearchCache = new();
         private readonly Dictionary<Entry, Dictionary<Type, object>> entryExtraDataCache = new();
         private readonly List<IDisposable> disposables = new();
@@ -33,6 +34,15 @@ namespace Dota2Modding.Common.Models.GameStructure
             else
             {
                 entitySearchCache.Add(searchTxt, new() { entry });
+            }
+
+            if (sourcesCache.TryGetValue(entry.Source, out var sourceCache))
+            {
+                sourceCache.Add(entry);
+            }
+            else
+            {
+                sourcesCache.Add(entry.Source, new () { entry });
             }
 
             RootFolder.Add(entry.FullName, entry);

@@ -45,12 +45,11 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             logger.LogInformation($"Opening file {file}");
             try
             {
-                var obj = KvLoader.Parse(file);
 
-                DotaProject = new(dotaProjLogger, file, new AddonInfo(obj.Name, obj.Value), dota2Locator);
+                DotaProject = new(dotaProjLogger, file, dota2Locator);
                 logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
 
-                DotaProject.InitBasePackages();
+                DotaProject.InitBasePackages(file);
 
                 await eventBus.Publish(new ProjectLoadedEvent()
                 {

@@ -13,14 +13,16 @@ namespace Dota2Modding.Common.Models.GameStructure
     {
         public static void AddPackageEntry(this Packages workspace, Package package, PackageEntry packageEntry)
         {
-            
+            var dir = Path.GetDirectoryName(package.FileName);
+            var dirName = Path.GetFileName(dir);
+            var appendDir = $"{dirName}{Package.DirectorySeparatorChar}";
             var filename = $"{packageEntry.FileName}.{packageEntry.TypeName}";
             var entry = new Entry
             {
-                FullName = $"{packageEntry.DirectoryName}{Package.DirectorySeparatorChar}{filename}",
+                FullName = $"{appendDir}{packageEntry.DirectoryName}{Package.DirectorySeparatorChar}{filename}",
                 Name = packageEntry.FileName,
                 Extension = packageEntry.TypeName,
-                Path = packageEntry.DirectoryName,
+                Path = $"{appendDir}{packageEntry.DirectoryName}",
                 Source  = new Source
                 {
                     Path = package.FileName,
