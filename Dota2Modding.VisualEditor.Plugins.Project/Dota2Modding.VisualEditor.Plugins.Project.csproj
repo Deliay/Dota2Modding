@@ -25,7 +25,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Dota2Modding.Common\Dota2Modding.Common.csproj" />
     <ProjectReference Include="..\Dota2Modding.Common.Models\Dota2Modding.Common.Models.csproj" />
     <ProjectReference Include="..\Dota2Modding.VisualEditor\Dota2Modding.VisualEditor.csproj">
       <Private>False</Private>
