@@ -1,5 +1,4 @@
-﻿using DBreeze.Transactions;
-using SteamDatabase.ValvePak;
+﻿using SteamDatabase.ValvePak;
 using System;
 using System.Collections.Generic;
 using System.IO;

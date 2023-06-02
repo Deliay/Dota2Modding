@@ -1,5 +1,4 @@
-﻿using DBreeze.Transactions;
-using Dota2Modding.Common.Models.Searching;
+﻿using Dota2Modding.Common.Models.Searching;
 using System;
 using System.Collections.Generic;
 using System.Linq;

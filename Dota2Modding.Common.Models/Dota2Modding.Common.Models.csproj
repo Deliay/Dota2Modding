@@ -7,7 +7,6 @@
   </PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="DBreeze" Version="1.107.0" />
 		<PackageReference Include="ValveKeyValue" Version="0.8.2.162" />
 		<PackageReference Include="ValvePak" Version="1.4.0.53" />
 		<PackageReference Include="ValveResourceFormat" Version="0.3.2.1621" />
