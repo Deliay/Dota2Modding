@@ -11,6 +11,9 @@ namespace Dota2Modding.Common.Models.Project
     public class DotaProject
     {
         public const string AddonCustomAbilities = "scripts\\npc\\npc_abilities_custom.txt";
+        public const string AddonCustomHeroes = "scripts\\npc\\npc_heroes_custom.txt";
+        public const string AddonCustomItems = "scripts\\npc\\npc_items_custom.txt";
+        public const string AddonCustomUnits = "scripts\\npc\\npc_units_custom.txt";
 
         private readonly ILogger<DotaProject> logger;
         private readonly string addonInfoFilePath;
@@ -50,7 +53,7 @@ namespace Dota2Modding.Common.Models.Project
 
         public void InitBasePackages()
         {
-
+            // TODO move logging to event
             logger.LogInformation("Starting loading dota2 files");
 
             foreach (var vpk in GenerateDota2BasicVPKs(Dota2Directory))

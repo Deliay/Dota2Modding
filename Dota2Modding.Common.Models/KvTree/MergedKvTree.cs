@@ -12,6 +12,7 @@ namespace Dota2Modding.Common.Models.KvTree
     public class MergedKvTree : KVObject
     {
         private readonly KvTreeEntryMapping mapping;
+        public KvTreeEntryMapping Mapping => mapping;
         private MergedKvTree(KvTreeEntryMapping mapping, string name, KVValue value) : base(name, value)
         {
             this.mapping = mapping;
@@ -66,7 +67,7 @@ namespace Dota2Modding.Common.Models.KvTree
 
             private Stream GetStream()
             {
-                var prefix = string.Join('\n', bases.Keys.Select(k => $"#base {k}"));
+                var prefix = string.Join('\n', provider.Bases.Keys.Select(k => $"#base {k}"));
 
                 var str = $"{prefix}\n{GetRawString(entry)}";
 

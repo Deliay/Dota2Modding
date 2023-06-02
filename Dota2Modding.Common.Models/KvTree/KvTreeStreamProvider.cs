@@ -17,6 +17,7 @@ namespace Dota2Modding.Common.Models.KvTree
         private readonly KvTreeEntryMapping keyTree = new();
 
         public KvTreeEntryMapping Mapping => keyTree;
+        public Dictionary<string, Entry> Bases => bases;
 
         public KvTreeStreamProvider(Packages packages, string baseFolder)
         {
