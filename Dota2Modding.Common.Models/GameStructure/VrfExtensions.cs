@@ -72,5 +72,15 @@ namespace Dota2Modding.Common.Models.GameStructure
 
             workspace.AddPackage(pak);
         }
+
+        public static Package GetVpk(this Packages workspace, Entry entry)
+        {
+            return workspace.GetExtraData<Package>(entry);
+        }
+
+        public static PackageEntry GetPackageEntry(this Packages workspace, Entry entry)
+        {
+            return workspace.GetExtraData<PackageEntry>(entry);
+        }
     }
 }

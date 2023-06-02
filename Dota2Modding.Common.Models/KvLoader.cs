@@ -18,13 +18,15 @@ namespace Dota2Modding.Common.Models.Parser
                 using var stream = File.OpenRead(file);;
                 return kv1txt.Deserialize(stream);
             }
-            catch
+            catch (Exception e)
             {
                 using var stream = File.OpenRead(file);
 
                 return kv1bin.Deserialize(stream);
             }
         }
+
+        public static KVSerializer Plain => kv1txt;
 
         public static void Save(string file, KVObject value)
         {

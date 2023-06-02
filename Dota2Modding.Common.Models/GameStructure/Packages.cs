@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Dota2Modding.Common.Models.GameStructure
 {
@@ -14,14 +15,20 @@ namespace Dota2Modding.Common.Models.GameStructure
         private readonly List<Entry> entries = new();
         private readonly Dictionary<Source, HashSet<Entry>> sourcesCache = new();
         private readonly Dictionary<string, HashSet<Entry>> entitySearchCache = new();
+        private readonly Dictionary<string, HashSet<Entry>> fullPathCache = new();
         private readonly Dictionary<Entry, Dictionary<Type, object>> entryExtraDataCache = new();
         private readonly List<IDisposable> disposables = new();
 
         public int Count => entries.Count;
 
-        public IEnumerable<Entry> Find(string name)
+        public IEnumerable<Entry> Search(string name)
         {
             return entitySearchCache.Keys.Where(k => k.Contains(name)).SelectMany(k => entitySearchCache[k]);
+        }
+
+        public IEnumerable<Entry> Get(string fullPath)
+        {
+            return fullPathCache[fullPath] ?? Enumerable.Empty<Entry>();
         }
 
         public void AddEntry(Entry entry)
@@ -34,6 +41,15 @@ namespace Dota2Modding.Common.Models.GameStructure
             else
             {
                 entitySearchCache.Add(searchTxt, new() { entry });
+            }
+
+            if (fullPathCache.TryGetValue(searchTxt, out var fullPath))
+            {
+                fullPath.Add(entry);
+            }
+            else
+            {
+                fullPathCache.Add(searchTxt, new() { entry });
             }
 
             if (sourcesCache.TryGetValue(entry.Source, out var sourceCache))
@@ -62,6 +78,22 @@ namespace Dota2Modding.Common.Models.GameStructure
                     ext.Add(typeof(T), data);
                 }
             }
+            else
+            {
+                entryExtraDataCache.Add(entry, new() { { typeof(T), data } });
+            }
+        }
+
+        public T GetExtraData<T>(Entry entry)
+        {
+            if (entryExtraDataCache.TryGetValue(entry, out var ext))
+            {
+                if (ext.TryGetValue(typeof(T), out var value))
+                {
+                    return (T)value;
+                }
+            }
+            return default!;
         }
 
         public void AssociateDisposable(IDisposable disposable)
