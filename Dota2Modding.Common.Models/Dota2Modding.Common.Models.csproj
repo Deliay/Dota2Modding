@@ -11,5 +11,11 @@
 		<PackageReference Include="ValvePak" Version="1.4.0.53" />
 		<PackageReference Include="ValveResourceFormat" Version="0.3.2.1621" />
 		<PackageReference Include="VDS.Common" Version="1.10.0" />
+		<PackageReference Include="GameFinder.StoreHandlers.Steam" Version="2.6.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\EmberKernel\EmberKernel.csproj" />
 	</ItemGroup>
 </Project>

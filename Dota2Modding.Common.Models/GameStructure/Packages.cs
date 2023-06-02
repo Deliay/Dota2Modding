@@ -25,9 +25,12 @@ namespace Dota2Modding.Common.Models.GameStructure
             return entitySearchCache.Keys.Where(k => k.Contains(name)).SelectMany(k => entitySearchCache[k]);
         }
 
+        //public Entry ExpandAndGet(string fullPath) { 
+        //}
+
         public IEnumerable<Entry> Get(string fullPath)
         {
-            return fullPathCache[fullPath] ?? Enumerable.Empty<Entry>();
+            return fullPathCache[RootFolder.Sanitize(fullPath)] ?? Enumerable.Empty<Entry>();
         }
 
         public void AddEntry(Entry entry)
@@ -42,13 +45,14 @@ namespace Dota2Modding.Common.Models.GameStructure
                 entitySearchCache.Add(searchTxt, new() { entry });
             }
 
-            if (fullPathCache.TryGetValue(searchTxt, out var fullPath))
+            var fullPath = entry.GetPath();
+            if (fullPathCache.TryGetValue(fullPath, out var fullPaths))
             {
-                fullPath.Add(entry);
+                fullPaths.Add(entry);
             }
             else
             {
-                fullPathCache.Add(searchTxt, new() { entry });
+                fullPathCache.Add(fullPath, new() { entry });
             }
 
             if (sourcesCache.TryGetValue(entry.Source, out var sourceCache))

@@ -1,4 +1,5 @@
-﻿using Dota2Modding.VisualEditor.GUI;
+﻿using Dota2Modding.Common.Models.Project;
+using Dota2Modding.VisualEditor.GUI;
 using Dota2Modding.VisualEditor.GUI.Abstraction.EditorMenu;
 using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
 using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;

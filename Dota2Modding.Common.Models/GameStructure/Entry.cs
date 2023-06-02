@@ -1,4 +1,5 @@
 ﻿using Dota2Modding.Common.Models.Searching;
+using SteamDatabase.ValvePak;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,12 +21,18 @@ namespace Dota2Modding.Common.Models.GameStructure
 
         public string DisplayName => $"{Name}.{Extension}";
 
+        public FolderView this[string item] => throw new InvalidOperationException();
+
         public string GetContainsText()
         {
             return $"{FullName} {Name}.{Extension} {Extension} {Source.Path} {Path}";
         }
 
         public string GetFullPath() => System.IO.Path.Combine(Source.Path, FullName);
+
+        public string GetPath() => Source.IsVpk
+            ? $"{Path}{Package.DirectorySeparatorChar}{DisplayName}"
+            : System.IO.Path.Combine(Path, DisplayName);
 
         public IEnumerator<FolderView> GetEnumerator() => Enumerable.Empty<FolderView>().GetEnumerator();
 

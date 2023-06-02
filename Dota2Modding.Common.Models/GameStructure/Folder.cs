@@ -34,6 +34,11 @@ namespace Dota2Modding.Common.Models.GameStructure
 
         public string DisplayName => Name;
 
+        public FolderView this[string item]
+        {
+            get => Folders[item];
+        }
+
         private IEnumerable<FolderView> EnumerateFolderView()
         {
             foreach (var folder in Folders.Values)
@@ -73,6 +78,33 @@ namespace Dota2Modding.Common.Models.GameStructure
             {
                 Entries.Add(entry);
             }
+        }
+
+        public string Sanitize(string path)
+        {
+            var vpkSlash = path.IndexOf(Package.DirectorySeparatorChar);
+            var osSlash = path.IndexOf(Path.DirectorySeparatorChar);
+            if (vpkSlash != osSlash)
+            {
+                var slashPos = vpkSlash == -1
+                    ? osSlash
+                    : osSlash == -1
+                    ? vpkSlash
+                    : vpkSlash < osSlash ? vpkSlash : osSlash;
+                var baseFolder = path[..slashPos];
+                if (Folders.TryGetValue(baseFolder, out var folder))
+                {
+                    if (folder.IsVirtual)
+                    {
+                        return path.Replace(Path.DirectorySeparatorChar, Package.DirectorySeparatorChar);
+                    }
+                    else
+                    {
+                        return path.Replace(Package.DirectorySeparatorChar, Path.DirectorySeparatorChar);
+                    }
+                }
+            }
+            return path;
         }
 
         public IEnumerator<FolderView> GetEnumerator() => EnumerateFolderView().GetEnumerator();

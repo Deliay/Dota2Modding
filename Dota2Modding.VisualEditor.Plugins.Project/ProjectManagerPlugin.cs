@@ -31,7 +31,6 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
         public override void BuildComponents(IComponentBuilder builder)
         {
             builder.ConfigureComponent<ProjectManager>().AsSelf().SingleInstance();
-            builder.ConfigureComponent<Dota2Locator>().AsSelf().SingleInstance();
             builder.ConfigureComponent<OpenProjectMenu>().AsSelf().SingleInstance();
             builder.ConfigureComponent<AddonInfoPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
             builder.ConfigureComponent<ProjectExplorer>().AsSelf().As<ILayoutedObject>().SingleInstance();

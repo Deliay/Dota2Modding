@@ -13,5 +13,10 @@ namespace Dota2Modding.Common.Models.GameStructure
 
         public string DisplayName { get; }
 
+
+        public FolderView this[string item]
+        {
+            get;
+        }
     }
 }

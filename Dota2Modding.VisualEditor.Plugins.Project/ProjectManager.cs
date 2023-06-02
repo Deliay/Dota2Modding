@@ -1,6 +1,4 @@
 ﻿using Dota2Modding.Common.Models.Addon;
-using Dota2Modding.Common.Models;
-using Dota2Modding.VisualEditor.Plugins.Project.Abstraction;
 using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Services.EventBus;
@@ -14,6 +12,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using Dota2Modding.Common.Models.Parser;
+using Dota2Modding.Common.Models.Project;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
@@ -23,14 +22,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
         private readonly IEventBus eventBus;
         private readonly ILogger<ProjectManager> logger;
-        private readonly Dota2Locator dota2Locator;
         private readonly ILogger<DotaProject> dotaProjLogger;
 
-        public ProjectManager(IEventBus eventBus, ILogger<ProjectManager> logger, Dota2Locator dota2Locator, ILogger<DotaProject> dotaProjLogger)
+        public ProjectManager(IEventBus eventBus, ILogger<ProjectManager> logger, ILogger<DotaProject> dotaProjLogger)
         {
             this.eventBus = eventBus;
             this.logger = logger;
-            this.dota2Locator = dota2Locator;
             this.dotaProjLogger = dotaProjLogger;
         }
 
@@ -46,10 +43,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             try
             {
 
-                DotaProject = new(dotaProjLogger, file, dota2Locator);
+                DotaProject = new(dotaProjLogger, file, new Dota2Locator());
                 logger.LogInformation($"Addon {DotaProject.WorkingDirectory} loaded");
 
-                DotaProject.InitBasePackages(file);
+                DotaProject.InitBasePackages();
 
                 await eventBus.Publish(new ProjectLoadedEvent()
                 {
