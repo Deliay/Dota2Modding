@@ -34,10 +34,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
 
         public bool IsProjectOpend { get; private set; } = false;
 
-        public OpenProjectMenu(Dota2Locator dota2Locator, IEventBus eventBus)
+        public OpenProjectMenu(IEventBus eventBus)
         {
-            this.dota2Locator = dota2Locator;
             this.eventBus = eventBus;
+            dota2Locator = new Dota2Locator();
         }
 
         public override void Execute(object? parameter)

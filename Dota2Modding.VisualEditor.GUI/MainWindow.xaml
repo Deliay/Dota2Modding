@@ -7,7 +7,8 @@
         xmlns:local="clr-namespace:Dota2Modding.VisualEditor.GUI"
         xmlns:hc="https://handyorg.github.io/handycontrol"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800" Closing="Window_Closing"
+        WindowStartupLocation="CenterScreen"
+        Title="MainWindow" Height="760" Width="1280" Closing="Window_Closing"
         UseLayoutRounding="True">
     <Grid x:Name="layoutRoot">
         <Grid.RowDefinitions>
@@ -21,86 +22,60 @@
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
         </Menu>
-        <DockingManager
+        <hc:SimplePanel Grid.Row="1">
+            <DockingManager
             x:Name="dockManager"
-            Grid.Row="1"
             AllowMixedOrientation="True"
             AutoWindowSizeWhenOpened="True"
             IsVirtualizingAnchorable="True"
-            IsVirtualizingDocument="True">
-            <DockingManager.Theme>
-                <Vs2013DarkTheme />
-            </DockingManager.Theme>
-            <DockingManager.DocumentHeaderTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <Image Margin="0,0,4,0" Source="{Binding IconSource}" />
-                        <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
-                    </StackPanel>
-                </DataTemplate>
-            </DockingManager.DocumentHeaderTemplate>
+            IsVirtualizingDocument="True" DocumentClosed="dockManager_DocumentClosed">
+                <DockingManager.Theme>
+                    <Vs2013DarkTheme />
+                </DockingManager.Theme>
+                <DockingManager.DocumentHeaderTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Image Margin="0,0,4,0" Source="{Binding IconSource}" />
+                            <TextBlock Text="{Binding Title}" TextTrimming="CharacterEllipsis" />
+                        </StackPanel>
+                    </DataTemplate>
+                </DockingManager.DocumentHeaderTemplate>
 
-            <LayoutRoot>
-                <LayoutPanel Orientation="Horizontal">
-                    <LayoutDocumentPaneGroup x:Name="documents">
-                        <LayoutDocumentPane x:Name="LayoutDocumentPane">
-                            <LayoutDocument
-                                Title="Document 1"
-                                ContentId="document1">
-                                <Grid>
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-                                    <Button
-                                        Height="28"
-                                        VerticalAlignment="Top"
-                                        Content="Click to add 2 documents" />
-                                    <TextBox Grid.Row="1" Text="Document 1 Content" />
-                                </Grid>
-                            </LayoutDocument>
-                        </LayoutDocumentPane>
-                    </LayoutDocumentPaneGroup>
-                </LayoutPanel>
-                
-                <LayoutRoot.LeftSide>
-                    <LayoutAnchorSide>
-                        <LayoutAnchorGroup>
-                            <LayoutAnchorable
-                                Title="Tool Window 2"
-                                ContentId="toolWindow2">
-                                <StackPanel MinHeight="450">
-                                    <TextBox Text="2" />
-                                </StackPanel>
-                            </LayoutAnchorable>
-                        </LayoutAnchorGroup>
-                    </LayoutAnchorSide>
-                </LayoutRoot.LeftSide>
+                <LayoutRoot>
+                    <LayoutPanel Orientation="Horizontal">
+                        <LayoutDocumentPaneGroup x:Name="documents">
+                            <LayoutDocumentPane x:Name="LayoutDocumentPane">
+                            </LayoutDocumentPane>
+                        </LayoutDocumentPaneGroup>
+                    </LayoutPanel>
 
-                <LayoutRoot.BottomSide>
-                    <LayoutAnchorSide>
-                        <LayoutAnchorGroup>
-                        </LayoutAnchorGroup>
-                    </LayoutAnchorSide>
-                </LayoutRoot.BottomSide>
+                    <LayoutRoot.LeftSide>
+                        <LayoutAnchorSide>
+                            <LayoutAnchorGroup></LayoutAnchorGroup>
+                        </LayoutAnchorSide>
+                    </LayoutRoot.LeftSide>
 
-                <LayoutRoot.RightSide>
-                    <LayoutAnchorSide>
-                        <LayoutAnchorGroup>
-                        </LayoutAnchorGroup>
-                    </LayoutAnchorSide>
-                </LayoutRoot.RightSide>
+                    <LayoutRoot.BottomSide>
+                        <LayoutAnchorSide>
+                            <LayoutAnchorGroup></LayoutAnchorGroup>
+                        </LayoutAnchorSide>
+                    </LayoutRoot.BottomSide>
+
+                    <LayoutRoot.RightSide>
+                        <LayoutAnchorSide>
+                            <LayoutAnchorGroup></LayoutAnchorGroup>
+                        </LayoutAnchorSide>
+                    </LayoutRoot.RightSide>
+
+                    <LayoutRoot.TopSide>
+                        <LayoutAnchorSide>
+                            <LayoutAnchorGroup></LayoutAnchorGroup>
+                        </LayoutAnchorSide>
+                    </LayoutRoot.TopSide>
+                </LayoutRoot>
 
 
-                <LayoutRoot.TopSide>
-                    <LayoutAnchorSide>
-                        <LayoutAnchorGroup>
-                        </LayoutAnchorGroup>
-                    </LayoutAnchorSide>
-                </LayoutRoot.TopSide>
-            </LayoutRoot>
-
-
-        </DockingManager>
+            </DockingManager>
+        </hc:SimplePanel>
     </Grid>
 </hc:GlowWindow>

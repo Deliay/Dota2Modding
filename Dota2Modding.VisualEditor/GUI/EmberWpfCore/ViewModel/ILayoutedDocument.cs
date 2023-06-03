@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
 {
-    internal interface ILayoutedDocument : ILayoutedObject
+    public interface ILayoutedDocument : ILayoutedObject
     {
+        public bool Closeable { get; }
     }
 }

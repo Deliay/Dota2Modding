@@ -15,6 +15,10 @@
         </ResourceDictionary>
         <hc:ThemeResources/>
         <hc:Theme/>
+        <hc:ColorPaletteResources />
+        <hc:ColorPresetResources />
+        <hc:IntellisenseResources />
+        <ResourceDictionary Source="pack://application:,,,/HandyControl;component/Themes/Basic/Colors/Dark.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/Dota2Modding.VisualEditor.GUI;Component/ResourceDictionaries/KvPropertyGrid.xaml" />
     </ResourceDictionary.MergedDictionaries>
 </ResourceDictionary>

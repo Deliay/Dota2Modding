@@ -27,222 +27,216 @@ namespace Dota2Modding.Common.Models.Game.Entities
 
         public string BaseClass
         {
-            get => base["BaseClass"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("BaseClass");
             set => base["BaseClass"] = value;
-        }
-
-        public string HeroName
-        {
-            get => base["Name"]?.ToString(CultureInfo.CurrentCulture);
-            set => base["Name"] = value;
         }
 
         public string Model
         {
-            get => base["Model"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("Model");
             set => base["Model"] = value;
         }
 
         public string SoundSet
         {
-            get => base["SoundSet"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("SoundSet");
             set => base["SoundSet"] = value;
         }
 
         public bool IsCastableWhileHidden
         {
-            get => base["IsCustom"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("IsCustom") ?? false;
             set => base["IsCustom"] = value ? 1 : 0;
         }
 
 
-        public double ArmorPhysical
+        public float ArmorPhysical
         {
-            get => base["ArmorPhysical"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("ArmorPhysical") ?? 0;
             set => base["ArmorPhysical"] = value.ToString();
         }
 
-        public DotaUnitAttackCapability AttackCapabilities
+        public DotaUnitAttackCapability? AttackCapabilities
         {
             get => ToFlag<DotaUnitAttackCapability>("AttackCapabilities");
-            set => base["AttackCapabilities"] = FromFlag(value);
+            set => base["AttackCapabilities"] = FromFlag(value.Value);
         }
-        public double AttackDamageMin
+        public float AttackDamageMin
         {
-            get => base["AttackDamageMin"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackDamageMin") ?? 0f;
             set => base["AttackDamageMin"] = value.ToString();
         }
-        public double AttackDamageMax
+        public float AttackDamageMax
         {
-            get => base["AttackDamageMax"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackDamageMax") ?? 0f;
             set => base["AttackDamageMax"] = value.ToString();
         }
-        public double AttackRate
+        public float AttackRate
         {
-            get => base["AttackRate"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackRate") ?? 1f;
             set => base["AttackRate"] = value.ToString();
         }
-        public double BaseAttackSpeed
+        public float BaseAttackSpeed
         {
-            get => base["BaseAttackSpeed"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("BaseAttackSpeed") ?? 100f;
             set => base["BaseAttackSpeed"] = value.ToString();
         }
-        public double AttackAnimationPoint
+        public float AttackAnimationPoint
         {
-            get => base["AttackAnimationPoint"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackAnimationPoint") ?? 0;
             set => base["AttackAnimationPoint"] = value.ToString();
         }
-        public double AttackAcquisitionRange
+        public float AttackAcquisitionRange
         {
-            get => base["AttackAcquisitionRange"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackAcquisitionRange") ?? 0;
             set => base["AttackAcquisitionRange"] = value.ToString();
         }
-        public double AttackRange
+        public float AttackRange
         {
-            get => base["AttackRange"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttackRange") ?? 0;
             set => base["AttackRange"] = value.ToString();
         }
         public string ProjectileModel
         {
-            get => base["ProjectileModel"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("ProjectileModel");
             set => base["ProjectileModel"] = value;
         }
-        public double ProjectileSpeed
+        public float ProjectileSpeed
         {
-            get => base["ProjectileSpeed"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("ProjectileSpeed") ?? 0;
             set => base["ProjectileSpeed"] = value.ToString();
         }
-        public DotaAttribute AttributePrimary
+        public DotaAttribute? AttributePrimary
         {
             get => ToFlag<DotaAttribute>("AttributePrimary");
-            set => base["AttributePrimary"] = FromFlag(value);
+            set => base["AttributePrimary"] = FromFlag(value.Value);
         }
-        public double AttributeBaseStrength
+        public float AttributeBaseStrength
         {
-            get => base["AttributeBaseStrength"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeBaseStrength") ?? 0;
             set => base["AttributeBaseStrength"] = value.ToString();
         }
-        public double AttributeStrengthGain
+        public float AttributeStrengthGain
         {
-            get => base["AttributeStrengthGain"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeStrengthGain") ?? 0;
             set => base["AttributeStrengthGain"] = value.ToString();
         }
-        public double AttributeBaseIntelligence
+        public float AttributeBaseIntelligence
         {
-            get => base["AttributeBaseIntelligence"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeBaseIntelligence") ?? 0;
             set => base["AttributeBaseIntelligence"] = value.ToString();
         }
-        public double AttributeIntelligenceGain
+        public float AttributeIntelligenceGain
         {
-            get => base["AttributeIntelligenceGain"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeIntelligenceGain") ?? 0;
             set => base["AttributeIntelligenceGain"] = value.ToString();
         }
-        public double AttributeBaseAgility
+        public float AttributeBaseAgility
         {
-            get => base["AttributeBaseAgility"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeBaseAgility") ?? 0;
             set => base["AttributeBaseAgility"] = value.ToString();
         }
-        public double AttributeAgilityGain
+        public float AttributeAgilityGain
         {
-            get => base["AttributeAgilityGain"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("AttributeAgilityGain") ?? 0;
             set => base["AttributeAgilityGain"] = value.ToString();
         }
-        public double StatusMana
+        public float StatusMana
         {
-            get => base["StatusMana"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("StatusMana") ?? 0;
             set => base["StatusMana"] = value.ToString();
         }
-        public double StatusManaRegen
+        public float StatusManaRegen
         {
-            get => base["StatusManaRegen"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("StatusManaRegen") ?? 0;
             set => base["StatusManaRegen"] = value.ToString();
         }
-        public double StatusHealth
+        public float StatusHealth
         {
-            get => base["StatusHealth"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("StatusHealth") ?? 0;
             set => base["StatusHealth"] = value.ToString();
         }
-        public double StatusHealthRegen
+        public float StatusHealthRegen
         {
-            get => base["StatusHealthRegen"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("StatusHealthRegen") ?? 0;
             set => base["StatusHealthRegen"] = value.ToString();
         }
-        public DotaUnitMoveCapability MovementCapabilities
+        public DotaUnitMoveCapability? MovementCapabilities
         {
             get => ToFlag<DotaUnitMoveCapability>("MovementCapabilities");
-            set => base["MovementCapabilities"] = FromFlag(value);
+            set => base["MovementCapabilities"] = FromFlag(value.Value);
         }
-        public double MovementSpeed
+        public float MovementSpeed
         {
-            get => base["MovementSpeed"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("MovementSpeed") ?? 0;
             set => base["MovementSpeed"] = value.ToString();
         }
-        public double MovementTurnRate
+        public float MovementTurnRate
         {
-            get => base["MovementTurnRate"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("MovementTurnRate") ?? 0;
             set => base["MovementTurnRate"] = value.ToString();
         }
 
         public bool HasAggressiveStance
         {
-            get => base["HasAggressiveStance"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("HasAggressiveStance") ?? false;
             set => base["HasAggressiveStance"] = value ? 1 : 0;
         }
 
         public string particle_folder
         {
-            get => base["particle_folder"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("particle_folder");
             set => base["particle_folder"] = value;
         }
 
         public string GameSoundsFile
         {
-            get => base["GameSoundsFile"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("GameSoundsFile");
             set => base["GameSoundsFile"] = value;
         }
 
         public string VoiceFile
         {
-            get => base["VoiceFile"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("VoiceFile");
             set => base["VoiceFile"] = value;
         }
 
         public string IdleSoundLoop
         {
-            get => base["IdleSoundLoop"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("IdleSoundLoop");
             set => base["IdleSoundLoop"] = value;
         }
 
         public bool HasInventory
         {
-            get => base["HasInventory"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("HasInventory") ?? false;
             set => base["HasInventory"] = value ? 1 : 0;
         }
-        public double VisionDaytimeRange
+        public float VisionDaytimeRange
         {
-            get => base["VisionDaytimeRange"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("VisionDaytimeRange") ?? 0;
             set => base["VisionDaytimeRange"] = value.ToString();
         }
-        public double VisionNighttimeRange
+        public float VisionNighttimeRange
         {
-            get => base["VisionNighttimeRange"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("VisionNighttimeRange") ?? 0;
             set => base["VisionNighttimeRange"] = value.ToString();
         }
-        public double MagicalResistance
+        public float MagicalResistance
         {
-            get => base["MagicalResistance"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("MagicalResistance") ?? 0;
             set => base["MagicalResistance"] = value.ToString();
         }
 
         public string TeamName
         {
-            get => base["TeamName"]?.ToString(CultureInfo.CurrentCulture);
+            get => GetString("TeamName");
             set => base["TeamName"] = value;
         }
 
         public bool DisableDamageDisplay
         {
-            get => base["DisableDamageDisplay"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("DisableDamageDisplay") ?? false;
             set => base["DisableDamageDisplay"] = value ? 1 : 0;
         }
     }

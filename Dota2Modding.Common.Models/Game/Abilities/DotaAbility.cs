@@ -39,28 +39,28 @@ namespace Dota2Modding.Common.Models.Game.Abilities
             set => base["MaxLevel"] = value;
         }
 
-        public DotaGameActivity AbilityCastAnimation
+        public DotaGameActivity? AbilityCastAnimation
         {
             get => ToFlag<DotaGameActivity>("AbilityCastAnimation");
-            set => base["AbilityCastAnimation"] = FromFlag(value);
+            set => base["AbilityCastAnimation"] = FromFlag(value.Value);
         }
 
-        public double AbilityCastRange
+        public float AbilityCastRange
         {
-            get => base["MaxLevel"].ToDouble(CultureInfo.CurrentCulture);
+            get => base["MaxLevel"].ToSingle(CultureInfo.CurrentCulture);
             set => base["MaxLevel"] = value.ToString();
         }
 
-        public DotaDamageTypes AbilityUnitDamageType
+        public DotaDamageTypes? AbilityUnitDamageType
         {
             get => ToFlag<DotaDamageTypes>("AbilityUnitDamageType");
-            set => base["AbilityUnitDamageType"] = FromFlag(value);
+            set => base["AbilityUnitDamageType"] = FromFlag(value.Value);
         }
 
-        public DotaSpellImmunityType SpellImmunityType
+        public DotaSpellImmunityType? SpellImmunityType
         {
             get => ToFlag<DotaSpellImmunityType>("SpellImmunityType");
-            set => base["SpellImmunityType"] = FromFlag(value);
+            set => base["SpellImmunityType"] = FromFlag(value.Value);
         }
 
         public int AbilityCastPoint
@@ -87,10 +87,10 @@ namespace Dota2Modding.Common.Models.Game.Abilities
             set => base["AbilityCooldown"] = value;
         }
 
-        public DotaAbilityType AbilityType
+        public DotaAbilityType? AbilityType
         {
             get => ToFlag<DotaAbilityType>("AbilityType");
-            set => base["AbilityType"] = FromFlag(value);
+            set => base["AbilityType"] = FromFlag(value.Value);
         }
         public int RequiredLevel
         {
@@ -110,10 +110,10 @@ namespace Dota2Modding.Common.Models.Game.Abilities
             get => base["IsCastableWhileHidden"].ToBoolean(CultureInfo.CurrentCulture);
             set => base["IsCastableWhileHidden"] = value ? 1 : 0;
         }
-        public DotaUnitTargetTeam AbilityUnitTargetTeam
+        public DotaUnitTargetTeam? AbilityUnitTargetTeam
         {
             get => ToFlag<DotaUnitTargetTeam>("AbilityUnitTargetTeam");
-            set => base["AbilityUnitTargetTeam"] = FromFlag(value);
+            set => base["AbilityUnitTargetTeam"] = FromFlag(value.Value);
         }
         public IReadOnlySet<DotaAbilityBehavior> AbilityBehavior
         {

@@ -17,6 +17,7 @@ using EmberKernel.Services.UI.Mvvm.ViewModel.Configuration.Extension;
 using EmberWpfCore.Components.Configuration.View;
 using EmberWpfCore.Components.PluginsManager.View;
 using EmberWpfCore.ViewModel;
+using HandyControl.Tools;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -35,6 +36,7 @@ namespace Dota2Modding.VisualEditor.GUI
             {
                 Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor.GUI;component/shared.xaml", UriKind.Absolute)
             });
+            application.Resources.MergedDictionaries.Add(ResourceHelper.GetTheme());
         }
 
         public override void BuildComponents(IComponentBuilder builder)
@@ -60,7 +62,7 @@ namespace Dota2Modding.VisualEditor.GUI
             await scope.InitializeMenuItem<PluginMenu>();
             await scope.InitializeMenuItem<MenuItemExit>();
             await scope.InitializeMenuItem<InstalledPluginsMenu>();
-            await scope.RegisterPanel<ConsolePanel>();
+            await scope.RegisterOrOpenPanel<ConsolePanel>();
             scope.Subscription<AllPluginResolvedEvent, MainWindow>();
             scope.Subscription<ProjectLoadedEvent, MainWindow>();
             scope.Subscription<ProjectUnloadEvent, MainWindow>();

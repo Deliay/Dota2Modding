@@ -32,34 +32,60 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
         {
             builder.ConfigureComponent<ProjectManager>().AsSelf().SingleInstance();
             builder.ConfigureComponent<OpenProjectMenu>().AsSelf().SingleInstance();
+            builder.ConfigureComponent<DotaProjectMenu>().AsSelf().SingleInstance();
+            //builder.ConfigureComponent<DotaHeroesPanelMenu>().AsSelf().SingleInstance();
             builder.ConfigureComponent<AddonInfoPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
             builder.ConfigureComponent<ProjectExplorer>().AsSelf().As<ILayoutedObject>().SingleInstance();
+            builder.ConfigureComponent<DotaHeroesPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
         }
 
         public override async ValueTask Initialize(ILifetimeScope scope)
         {
-            await scope.RegisterPanel<AddonInfoPanel>();
-            await scope.RegisterPanel<ProjectExplorer>();
+            await scope.RegisterOrOpenPanel<AddonInfoPanel>();
+            await scope.RegisterOrOpenPanel<ProjectExplorer>();
+            await scope.RegisterOrOpenPanel<DotaHeroesPanel>();
+
             scope.Subscription<ProjectSelectedEvent, ProjectManager>();
+
             scope.Subscription<ProjectLoadedEvent, OpenProjectMenu>();
             scope.Subscription<ProjectUnloadEvent, OpenProjectMenu>();
+
             scope.Subscription<ProjectLoadedEvent, AddonInfoPanel>();
             scope.Subscription<ProjectUnloadEvent, AddonInfoPanel>();
+
             scope.Subscription<ProjectLoadedEvent, ProjectExplorer>();
             scope.Subscription<ProjectUnloadEvent, ProjectExplorer>();
+
+            scope.Subscription<ProjectLoadedEvent, DotaProjectMenu>();
+            scope.Subscription<ProjectUnloadEvent, DotaProjectMenu>();
+
+            scope.Subscription<ProjectLoadedEvent, DotaHeroesPanel>();
+            scope.Subscription<ProjectUnloadEvent, DotaHeroesPanel>();
+
             await scope.InitializeMenuItem<OpenProjectMenu>();
+            //await scope.InitializeMenuItem<DotaHeroesPanelMenu>();
         }
 
         public override async ValueTask Uninitialize(ILifetimeScope scope)
         {
             await scope.UnInitializeMenuItem<OpenProjectMenu>();
+            //await scope.UnInitializeMenuItem<DotaHeroesPanelMenu>();
             scope.Unsubscription<ProjectSelectedEvent, ProjectManager>();
+
             scope.Unsubscription<ProjectUnloadEvent, OpenProjectMenu>();
             scope.Unsubscription<ProjectLoadedEvent, OpenProjectMenu>();
+
             scope.Unsubscription<ProjectLoadedEvent, AddonInfoPanel>();
             scope.Unsubscription<ProjectUnloadEvent, AddonInfoPanel>();
+
             scope.Unsubscription<ProjectLoadedEvent, ProjectExplorer>();
             scope.Unsubscription<ProjectUnloadEvent, ProjectExplorer>();
+
+            scope.Unsubscription<ProjectLoadedEvent, DotaProjectMenu>();
+            scope.Unsubscription<ProjectUnloadEvent, DotaProjectMenu>();
+
+            scope.Unsubscription<ProjectLoadedEvent, DotaHeroesPanel>();
+            scope.Unsubscription<ProjectUnloadEvent, DotaHeroesPanel>();
         }
     }
 }

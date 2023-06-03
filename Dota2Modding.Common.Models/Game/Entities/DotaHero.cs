@@ -19,11 +19,27 @@ namespace Dota2Modding.Common.Models.Game.Entities
         {
         }
 
+        public string HeroName
+        {
+            get => GetString("Name");
+            set => base["Name"] = value;
+        }
+
+        public string HeroKey
+        {
+            get => base.Name;
+        }
+
         public int HeroID
         {
-            get => base["HeroID"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("HeroID") ?? 0;
             set => base["HeroID"] = value;
         }
 
+        public string OverrideHero
+        {
+            get => GetString("override_hero")!;
+            set => base["override_hero"] = value;
+        }
     }
 }

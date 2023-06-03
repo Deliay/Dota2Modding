@@ -14,6 +14,7 @@ namespace Dota2Modding.Common.Models
 {
     public class BasicObject : KVObject
     {
+
         static BasicObject()
         {
             TypeDescriptor.AddProvider(new BasicObjectDescriptionProvider(typeof(BasicObject), typeof(BasicObject)), typeof(BasicObject));
@@ -26,16 +27,17 @@ namespace Dota2Modding.Common.Models
         {
         }
 
-        public string Name { get; set; }
-
-        protected IReadOnlySet<T> FlagsOf<T>(string key) where T : struct
+        protected IReadOnlySet<T>? FlagsOf<T>(string key) where T : struct
         {
             return ParseFlags<T>(this[key].ToString(CultureInfo.CurrentCulture));
         }
 
-        protected T ToFlag<T>(string key) where T : struct
+        protected T? ToFlag<T>(string key) where T : struct
         {
-            return Enum.Parse<T>(this[key].ToString(CultureInfo.CurrentCulture));
+            var raw = this[key]?.ToString(CultureInfo.CurrentCulture);
+            if (raw is null) return default;
+
+            return Enum.Parse<T>(raw);
         }
 
         public static string FromFlag<T>(T flag) where T : struct
@@ -43,8 +45,9 @@ namespace Dota2Modding.Common.Models
             return flag.ToString();
         }
 
-        public static IReadOnlySet<T> ParseFlags<T>(string raw) where T : struct
+        public static IReadOnlySet<T>? ParseFlags<T>(string raw) where T : struct
         {
+            if (raw is null) return null!;
             return raw.Split('|')
                 .Select(item => item.Trim())
                 .Select(Enum.Parse<T>)
@@ -65,6 +68,26 @@ namespace Dota2Modding.Common.Models
             }
         }
 
+        protected string? GetString(string key)
+        {
+            return this[key]?.ToString(CultureInfo.CurrentCulture);
+        }
+
+        protected float? GetSingle(string key)
+        {
+            return this[key]?.ToSingle(CultureInfo.CurrentCulture);
+        }
+
+        protected bool? GetBoolean(string key)
+        {
+            return this[key]?.ToBoolean(CultureInfo.CurrentCulture);
+        }
+
+        protected int? GetInt32(string key)
+        {
+            return this[key]?.ToInt32(CultureInfo.CurrentCulture);
+        }
+
         private Entry Site { get; set; }
 
         public void SetSite(Entry site)
@@ -75,6 +98,29 @@ namespace Dota2Modding.Common.Models
             }
 
             Site = site;
+        }
+
+        private readonly List<BasicObject> overrideDict = new();
+
+        public IReadOnlyList<BasicObject> Overrides => overrideDict;
+
+        public void AddOverride(BasicObject obj)
+        {
+            overrideDict.Add(obj);
+        }
+
+        public void AddOverride(IEnumerable<BasicObject> obj)
+        {
+            overrideDict.AddRange(obj);
+        }
+
+        public new virtual KVValue this[string key]
+        {
+            get
+            {
+                return base[key] ?? overrideDict.Select(dict => dict[key]).FirstOrDefault(r => r is not null)!;
+            }
+            set => base[key] = value;
         }
     }
 }

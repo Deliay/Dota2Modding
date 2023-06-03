@@ -23,8 +23,10 @@ namespace Dota2Modding.Common.Models.Game
         {
             get
             {
+
                 if (base[key] is KVValue value)
                 {
+                    if (value.ValueType != KVValueType.Collection) return default!;
                     return Convert(key, value);
                 }
                 return default!;

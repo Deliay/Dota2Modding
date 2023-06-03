@@ -16,18 +16,18 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
 {
     public static class LayoutItemsExtension
     {
-        public static async ValueTask RegisterPanel<T>(this ILifetimeScope scope) where T : ILayoutedObject
+        public static async ValueTask RegisterOrOpenPanel<T>(this ILifetimeScope scope) where T : ILayoutedObject
         {
             var wm = scope.Resolve<IWindowManager>();
             await wm.BeginUIThreadScope(async () =>
             {
                 var obj = scope.Resolve<T>();
                 await obj.Initialize(scope);
-                if (obj is ILayoutedDocument)
+                if (obj is ILayoutedDocument doc)
                 {
                     var manager = scope.Resolve<RegisteredLayoutDocument>();
 
-                    manager.AddOrOpen(obj.Id, obj.Title, obj);
+                    manager.AddOrOpen(doc);
                 }
                 else if (obj is ILayoutedPanel panel)
                 {
@@ -41,17 +41,17 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
             });
         }
 
-        public static async ValueTask RegisterPanel<T>(this ILifetimeScope scope, T obj) where T : ILayoutedObject
+        public static async ValueTask RegisterOrOpenPanel<T>(this ILifetimeScope scope, T obj) where T : ILayoutedObject
         {
             await obj.Initialize(scope);
             var wm = scope.Resolve<IWindowManager>();
             await wm.BeginUIThreadScope(async () =>
             {
-                if (obj is ILayoutedDocument)
+                if (obj is ILayoutedDocument doc)
                 {
                     var manager = scope.Resolve<RegisteredLayoutDocument>();
 
-                    manager.AddOrOpen(obj.Id, obj.Title, obj);
+                    manager.AddOrOpen(doc);
                 }
                 else if (obj is ILayoutedPanel panel)
                 {

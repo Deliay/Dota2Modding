@@ -30,7 +30,12 @@ namespace Dota2Modding.Common.Models.GameStructure
 
         public IEnumerable<Entry> Get(string fullPath)
         {
-            return fullPathCache[RootFolder.Sanitize(fullPath)] ?? Enumerable.Empty<Entry>();
+            var safePath = RootFolder.Sanitize(fullPath);
+            if (fullPathCache.TryGetValue(safePath, out var entry))
+            {
+                return entry;
+            }
+            return Enumerable.Empty<Entry>();
         }
 
         public void AddEntry(Entry entry)

@@ -1,5 +1,6 @@
 ﻿using Dota2Modding.Common.Models.Addon;
 using Dota2Modding.Common.Models.GameStructure;
+using Dota2Modding.Common.Models.KvTree;
 using Dota2Modding.Common.Models.Parser;
 using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
@@ -19,18 +20,27 @@ namespace Dota2Modding.Common.Models.Project
         private readonly string addonInfoFilePath;
 
         public string WorkingDirectory { get; }
-
+        public string WorkingDirectoryName { get; }
+        public string AddonAbilitiesPath { get; }
+        public string AddonHeroesPath { get; }
         public string Dota2Directory { get; }
 
         public AddonInfo AddonInfo { get; private set; }
 
         public Packages Packages { get; }
 
+        public DotaHeroesTree Heroes { get; private set; }
+
+        public DotaAbilitiesTree Abilities { get; private set; }
+
         public DotaProject(ILogger<DotaProject> logger, string addonInfoFilePath, Dota2Locator dota2Locator)
         {
             this.logger = logger;
             this.addonInfoFilePath = addonInfoFilePath;
             WorkingDirectory = Path.GetDirectoryName(addonInfoFilePath)!;
+            WorkingDirectoryName = Path.GetFileName(WorkingDirectory)!;
+            AddonAbilitiesPath = Path.Combine(WorkingDirectoryName, AddonCustomAbilities);
+            AddonHeroesPath = Path.Combine(WorkingDirectoryName, AddonCustomHeroes);
 
             Dota2Directory = dota2Locator.Locate().Path;
             Packages = new Packages();
@@ -53,7 +63,7 @@ namespace Dota2Modding.Common.Models.Project
 
         public void InitBasePackages()
         {
-            // TODO move logging to event
+            // TODO refactor: move logging to event
             logger.LogInformation("Starting loading dota2 files");
 
             foreach (var vpk in GenerateDota2BasicVPKs(Dota2Directory))
@@ -86,6 +96,11 @@ namespace Dota2Modding.Common.Models.Project
             AddonInfo.SetSite(addonInfoEntry);
             logger.LogInformation($"Dota2 custom game [{addonInfoEntry.Path}] loaded ");
 
+            Heroes = new DotaHeroesTree.Builder(Packages, AddonHeroesPath).Build();
+            logger.LogInformation($"Loaded {Heroes.Mapping.Count} heroes");
+
+            Abilities = new DotaAbilitiesTree.Builder(Packages, AddonAbilitiesPath).Build();
+            logger.LogInformation($"Loaded {Abilities.Mapping.Count} abilities");
         }
     }
 }

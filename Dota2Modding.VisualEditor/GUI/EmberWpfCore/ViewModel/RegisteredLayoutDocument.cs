@@ -3,6 +3,7 @@ using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using EmberKernel;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
+using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -17,7 +18,9 @@ namespace EmberWpfCore.ViewModel
 {
     public class RegisteredLayoutDocument :  INotifyCollectionChanged, INotifyPropertyChanged, IKernelService
     {
-        private class LayoutDocuments : ObservableCollection<LayoutDocument>
+        private readonly IWindowManager windowManager;
+
+        public class LayoutDocuments : ObservableCollection<LayoutDocument>
         {
             public new event PropertyChangedEventHandler? PropertyChanged;
             public LayoutDocuments()
@@ -31,15 +34,16 @@ namespace EmberWpfCore.ViewModel
             }
         }
 
-        private readonly LayoutDocuments items = new();
+        public LayoutDocuments Items { get; } = new();
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event PropertyChangedEventHandler? PropertyChanged;
 
-        public RegisteredLayoutDocument()
+        public RegisteredLayoutDocument(IWindowManager windowManager)
         {
-            items.CollectionChanged += Items_CollectionChanged;
-            items.PropertyChanged += Items_PropertyChanged;
+            Items.CollectionChanged += Items_CollectionChanged;
+            Items.PropertyChanged += Items_PropertyChanged;
+            this.windowManager = windowManager;
         }
 
         private void Items_PropertyChanged(object? sender, PropertyChangedEventArgs e)
@@ -52,33 +56,39 @@ namespace EmberWpfCore.ViewModel
             CollectionChanged?.Invoke(sender, e);
         }
 
-        public void AddOrOpen<T>(string Id, string Title, T control) where T : ILayoutedObject
+        public void AddOrOpen<T>(T control) where T : ILayoutedDocument
         {
-            var exist = items.FirstOrDefault(doc => doc.ContentId == Id);
-            if (exist is not null)
+            windowManager.BeginUIThreadScope(() =>
             {
-                exist.IsActive = true;
-            }
-            else
-            {
-                items.Add(new LayoutDocument()
+
+                var exist = Items.FirstOrDefault(doc => doc.ContentId == control.Id);
+                if (exist is not null)
                 {
-                    ContentId = Id,
-                    Title = Title,
-                    Content = control,
-                });
-            }
+                    exist.IsActive = true;
+                }
+                else
+                {
+                    Items.Add(new LayoutDocument()
+                    {
+                        ContentId = control.Id,
+                        Title = control.Title,
+                        Content = control,
+                        CanClose = control.Closeable,
+                    });
+                }
+            });
         }
 
         public void Close(string Id)
         {
-            var exist = items.FirstOrDefault(doc => doc.ContentId == Id);
+            var exist = Items.FirstOrDefault(doc => doc.ContentId == Id);
             exist?.Close();
         }
 
 
         public void Dispose()
         {
+            GC.SuppressFinalize(this);
         }
     }
 }

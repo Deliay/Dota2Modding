@@ -20,7 +20,4 @@ var exist = File.Exists(path);
 var lf = new LoggerFactory();
 var proj = new DotaProject(lf.CreateLogger<DotaProject>(), path, new Dota2Locator());
 proj.InitBasePackages();
-var ss  = MergedKvTree.From(proj.Packages, Path.Combine(folderName, DotaProject.AddonCustomHeroes));
-ss.AddBase("dota/scripts/npc/npc_heroes.txt");
-var tree = ss.Build();
 Console.WriteLine("Complete");

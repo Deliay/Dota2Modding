@@ -20,42 +20,42 @@ namespace Dota2Modding.Common.Models.Game.Entities
 
         public string VScripts
         {
-            get => base["vscripts"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("vscripts");
             set => base["vscripts"] = value;
         }
 
         public bool ConsideredHero
         {
-            get => base["ConsideredHero"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("ConsideredHero") ?? false;
             set => base["ConsideredHero"] = value ? 1 : 0;
         }
 
         public bool IsAncient
         {
-            get => base["IsAncient"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("IsAncient") ?? false;
             set => base["IsAncient"] = value ? 1 : 0;
         }
 
         public bool IsBossCreature
         {
-            get => base["IsBossCreature"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("IsBossCreature") ?? false;
             set => base["IsBossCreature"] = value ? 1 : 0;
         }
 
         public string IdleExpression
         {
-            get => base["IdleExpression"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("IdleExpression");
             set => base["IdleExpression"] = value;
         }
 
         public string MinimapIcon
         {
-            get => base["MinimapIcon"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("MinimapIcon");
             set => base["MinimapIcon"] = value;
         }
-        public double MinimapIconSize
+        public float MinimapIconSize
         {
-            get => base["MinimapIconSize"].ToDouble(CultureInfo.CurrentCulture);
+            get => GetSingle("MinimapIconSize") ?? 16f;
             set => base["MinimapIconSize"] = value.ToString();
         }
     }

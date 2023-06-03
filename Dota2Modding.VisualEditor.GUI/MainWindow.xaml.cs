@@ -35,6 +35,7 @@ using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Services.EventBus;
 using HandyControl.Tools;
 using HandyControl.Controls;
+using Dota2Modding.VisualEditor.GUI.Abstraction.Document;
 
 namespace Dota2Modding.VisualEditor.GUI
 {
@@ -73,9 +74,33 @@ namespace Dota2Modding.VisualEditor.GUI
             {
                 InsertToLayout(anchorable);
             }
+            var documentManager = scope.Resolve<RegisteredLayoutDocument>();
+            foreach (var document in documentManager.Items)
+            {
+                LayoutDocumentPane.Children.Add(document);
+            }
+            documentManager.CollectionChanged += DocumentManager_CollectionChanged;
             panelManager.CollectionChanged += PanelManager_CollectionChanged;
             ConfigHelper.Instance.SetWindowDefaultStyle();
             ConfigHelper.Instance.SetNavigationWindowDefaultStyle();
+        }
+
+        private void DocumentManager_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Add)
+            {
+                foreach (var item in e.NewItems.OfType<LayoutDocument>())
+                {
+                    LayoutDocumentPane.Children.Add(item);
+                }
+            }
+            else if (e.Action == NotifyCollectionChangedAction.Remove)
+            {
+                foreach (var item in e.OldItems.OfType<LayoutDocument>())
+                {
+                    LayoutDocumentPane.Children.Remove(item);
+                }
+            }
         }
 
         public void InsertToLayout(LayoutAnchorable anchorable)
@@ -108,7 +133,12 @@ namespace Dota2Modding.VisualEditor.GUI
         public async ValueTask Uninitialize(ILifetimeScope scope)
         {
             var panelManager = scope.Resolve<RegisteredLayoutPanel>();
+            var documentManager = scope.Resolve<DocumentManager>();
             panelManager.CollectionChanged -= PanelManager_CollectionChanged;
+            documentManager.CollectionChanged -= DocumentManager_CollectionChanged;
+
+            await WindowManager.BeginUIThreadScope(() => this.LayoutDocumentPane.Children.Clear());
+
             var serializer = new XmlLayoutSerializer(dockManager);
             using var writer = new StreamWriter("layout.xml");
             serializer.Serialize(writer);
@@ -119,7 +149,7 @@ namespace Dota2Modding.VisualEditor.GUI
             await Config.SaveAsync(cfg);
         }
 
-        private void PanelManager_CollectionChanged(object? sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private void PanelManager_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             if (e.Action == NotifyCollectionChangedAction.Add)
             {
@@ -162,14 +192,15 @@ namespace Dota2Modding.VisualEditor.GUI
                 {
                     EventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = config.LastProject });
                 }
-                if (File.Exists("layout.xml"))
-                {
-                    Logger.LogInformation("Restoring layout");
-                    var serializer = new XmlLayoutSerializer(dockManager);
-                    serializer.Deserialize("layout.xml");
-                    Logger.LogInformation("Layout restored");
+                //if (File.Exists("layout.xml"))
+                //{
+                //    Logger.LogInformation("Restoring layout");
+                //    var serializer = new XmlLayoutSerializer(dockManager);
+                    
+                //    serializer.Deserialize("layout.xml");
+                //    Logger.LogInformation("Layout restored");
 
-                }
+                //}
             });
         }
 
@@ -185,6 +216,11 @@ namespace Dota2Modding.VisualEditor.GUI
             var cfg = Config.Create();
             cfg.LastProject = string.Empty;
             await Config.SaveAsync(cfg);
+        }
+
+        private void dockManager_DocumentClosed(object sender, DocumentClosedEventArgs e)
+        {
+            this.LayoutDocumentPane.Children.Remove(e.Document);
         }
     }
 }

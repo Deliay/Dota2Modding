@@ -45,14 +45,18 @@ namespace EmberKernel.Services.EventBus
                 var @event = JsonSerializer.Deserialize(message, eventType);
                 var concreteType = typeof(IEventHandler<>).MakeGenericType(eventType);
                 var method = concreteType.GetMethod("Handle");
-                if (method.GetParameters().Length == 2)
+                try
                 {
-                    await (ValueTask)method.Invoke(handler, new object[] { @event, cancellation });
+                    if (method.GetParameters().Length == 2)
+                    {
+                        await (ValueTask)method.Invoke(handler, new object[] { @event, cancellation });
+                    }
+                    else
+                    {
+                        await (ValueTask)method.Invoke(handler, new object[] { @event });
+                    }
                 }
-                else
-                {
-                    await (ValueTask)method.Invoke(handler, new object[] { @event });
-                }
+                catch { }
             }
         }
 
