@@ -1,5 +1,6 @@
 ﻿using Dota2Modding.Common.Models.Addon;
 using Dota2Modding.Common.Models.GameStructure;
+using Dota2Modding.Common.Models.I18n;
 using Dota2Modding.Common.Models.KvTree;
 using Dota2Modding.Common.Models.Parser;
 using Microsoft.Extensions.Logging;
@@ -32,6 +33,8 @@ namespace Dota2Modding.Common.Models.Project
         public DotaHeroesTree Heroes { get; private set; }
 
         public DotaAbilitiesTree Abilities { get; private set; }
+
+        public I18nDict I18n { get; private set; }
 
         public DotaProject(ILogger<DotaProject> logger, string addonInfoFilePath, Dota2Locator dota2Locator)
         {
@@ -96,11 +99,18 @@ namespace Dota2Modding.Common.Models.Project
             AddonInfo.SetSite(addonInfoEntry);
             logger.LogInformation($"Dota2 custom game [{addonInfoEntry.Path}] loaded ");
 
+            logger.LogInformation($"Loading heroes");
             Heroes = new DotaHeroesTree.Builder(Packages, AddonHeroesPath).Build();
             logger.LogInformation($"Loaded {Heroes.Mapping.Count} heroes");
 
+            logger.LogInformation($"Loading abilities");
             Abilities = new DotaAbilitiesTree.Builder(Packages, AddonAbilitiesPath).Build();
             logger.LogInformation($"Loaded {Abilities.Mapping.Count} abilities");
+
+            logger.LogInformation("Loading localization");
+            I18n = new I18nDict.Builder(Packages).Build();
+            logger.LogInformation($"Loaded {I18n.Languages.Count()} language localizations");
+
         }
     }
 }

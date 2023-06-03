@@ -46,7 +46,11 @@ namespace Dota2Modding.Common.Models.GameStructure
 
                 vpk.ReadEntry(ent, out var raw);
 
-                return ExtractFromValveFormat(raw);
+                if (entry.Extension.EndsWith("_c"))
+                {
+                    return ExtractFromValveFormat(raw);
+                }
+                return raw;
             }
 
             var plainRaw = File.ReadAllBytes(entry.GetFullPath());
@@ -56,6 +60,11 @@ namespace Dota2Modding.Common.Models.GameStructure
             }
 
             return plainRaw;
+        }
+
+        public static MemoryStream LoadResourceStream(this Entry entry, Packages packages)
+        {
+            return new MemoryStream(LoadResourceData(entry, packages));
         }
     }
 }

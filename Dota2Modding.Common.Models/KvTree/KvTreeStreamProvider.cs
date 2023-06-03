@@ -56,10 +56,7 @@ namespace Dota2Modding.Common.Models.KvTree
             {
                 FileLoader = BlankFileStreamProdiver.Instance,
             });
-            foreach (var obj in kv)
-            {
-                keyTree.Add(obj.Name, entry);
-            }
+            keyTree.Save(kv, entry);
 
             return GetStream(entry);
         }

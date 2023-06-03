@@ -68,22 +68,22 @@ namespace Dota2Modding.Common.Models
             }
         }
 
-        protected string? GetString(string key)
+        public string? GetString(string key)
         {
             return this[key]?.ToString(CultureInfo.CurrentCulture);
         }
 
-        protected float? GetSingle(string key)
+        public float? GetSingle(string key)
         {
             return this[key]?.ToSingle(CultureInfo.CurrentCulture);
         }
 
-        protected bool? GetBoolean(string key)
+        public bool? GetBoolean(string key)
         {
             return this[key]?.ToBoolean(CultureInfo.CurrentCulture);
         }
 
-        protected int? GetInt32(string key)
+        public int? GetInt32(string key)
         {
             return this[key]?.ToInt32(CultureInfo.CurrentCulture);
         }

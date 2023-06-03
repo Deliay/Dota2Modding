@@ -25,9 +25,6 @@ namespace Dota2Modding.Common.Models.GameStructure
             return entitySearchCache.Keys.Where(k => k.Contains(name)).SelectMany(k => entitySearchCache[k]);
         }
 
-        //public Entry ExpandAndGet(string fullPath) { 
-        //}
-
         public IEnumerable<Entry> Get(string fullPath)
         {
             var safePath = RootFolder.Sanitize(fullPath);

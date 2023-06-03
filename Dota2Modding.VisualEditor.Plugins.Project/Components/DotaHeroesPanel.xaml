@@ -21,18 +21,21 @@
                         Width="200"
                         hc:InfoElement.TitlePlacement="Left"
                         hc:InfoElement.Title="Language"
-                        Text="Language"/>
+                        SelectedItem="{Binding Language}"/>
                     <hc:ComboBox
                         ItemsSource="{Binding HeroSources}"
                         Width="200"
                         hc:InfoElement.TitlePlacement="Left"
                         hc:InfoElement.Title="Source"
-                        Text="Source"/>
+                        hc:InfoElement.ShowClearButton="True"
+                        SelectedItem="{Binding SelectedSource}"/>
                     <hc:Divider LineStrokeThickness="2" Orientation="Vertical" MaxHeight="16"/>
                     <hc:SearchBar
                         Width="200"
                         hc:InfoElement.Placeholder="Search heroes"
-                        hc:InfoElement.ShowClearButton="True"/>
+                        hc:InfoElement.ShowClearButton="True"
+                        CommandParameter="{Binding Text,RelativeSource={RelativeSource Self}}"
+                        Command="{Binding SearchCommand}"/>
                 </hc:UniformSpacingPanel>
             </hc:SimpleStackPanel>
             
@@ -44,8 +47,6 @@
                 HeadersVisibility="All"
                 RowHeaderWidth="60"
                 Width="Auto"
-                VirtualizingStackPanel.IsVirtualizing="True"
-                VirtualizingStackPanel.VirtualizationMode="Recycling" 
                 ItemsSource="{Binding HeroList}">
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="60" CanUserResize="False">
@@ -56,9 +57,10 @@
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
                     <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroID}" Header="#"/>
-                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroKey}" Header="HeroKey"/>
-                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroName}" Header="Name"/>
-                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding BaseClass}" Header="BaseClass"/>
+                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding DisplayName}" Header="Name"/>
+                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroKey}" Header="Key"/>
+                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroName}" Header="Unit Name"/>
+                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding BaseClass}" Header="Base Class"/>
                     <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding OverrideHero}" Header="Override"/>
                 </DataGrid.Columns>
             </DataGrid>

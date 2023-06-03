@@ -64,10 +64,12 @@ namespace Dota2Modding.Common.Models.KvTree
         public KVObject ReadKvObject()
         {
             using var stream = GetStream();
-            return KvLoader.Plain.Deserialize(stream, new()
+            var kv = KvLoader.Plain.Deserialize(stream, new()
             {
                 FileLoader = provider
             });
+            provider.Mapping.Save(kv, entry);
+            return kv;
         }
 
         public abstract TSelf Build();
