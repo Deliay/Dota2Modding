@@ -60,7 +60,7 @@
                     <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding Name}" Header="Key"/>
                     <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding ScriptFile}" Header="Lua"/>
                     <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding BaseClass}" Header="Base Class"/>
-                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding AbilityBehavior}" Header="Override"/>
+                    <DataGridTextColumn IsReadOnly="True" CanUserResize="True" Binding="{Binding AbilityBehavior}" Header="Behavior"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>

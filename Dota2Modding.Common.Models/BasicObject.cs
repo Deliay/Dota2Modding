@@ -29,7 +29,7 @@ namespace Dota2Modding.Common.Models
 
         protected IReadOnlySet<T>? FlagsOf<T>(string key) where T : struct
         {
-            return ParseFlags<T>(this[key].ToString(CultureInfo.CurrentCulture));
+            return ParseFlags<T>(this[key]?.ToString(CultureInfo.CurrentCulture));
         }
 
         protected T? ToFlag<T>(string key) where T : struct
@@ -50,6 +50,11 @@ namespace Dota2Modding.Common.Models
             if (raw is null) return null!;
             return raw.Split('|')
                 .Select(item => item.Trim())
+                .Where(k =>
+                {
+                    var checkResult = Enum.IsDefined(typeof(T), k);
+                    return checkResult;
+                })
                 .Select(Enum.Parse<T>)
                 .ToHashSet();
         }
