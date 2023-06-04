@@ -75,7 +75,10 @@ namespace Dota2Modding.Common.Models.I18n
 
                 return vpkFolders.Concat(addonFolders)
                     .Where(ent => ent.Extension == "txt")
-                    .Where(ent => ent.Name.StartsWith("abilities_") || ent.Name.StartsWith("dota_") || ent.Name.StartsWith("addon_"));
+                    .Where(ent => ent.Name.StartsWith("abilities_") || ent.Name.StartsWith("dota_") || ent.Name.StartsWith("addon_"))
+                    .Where(ent => ent.Name.EndsWith("english", StringComparison.InvariantCultureIgnoreCase)
+                        || ent.Name.EndsWith("schinese", StringComparison.InvariantCultureIgnoreCase)
+                        || ent.Name.EndsWith("russian", StringComparison.InvariantCultureIgnoreCase));
             }
 
             public I18nDict Build()

@@ -60,9 +60,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
             });
         }
 
-        public ValueTask Handle(ProjectUnloadEvent @event)
+        public async ValueTask Handle(ProjectUnloadEvent @event)
         {
-            return default;
+            await windowManager.BeginUIThreadScope(() =>
+            {
+                this.DataContext = null;
+            });
         }
 
         public ValueTask Initialize(ILifetimeScope scope)

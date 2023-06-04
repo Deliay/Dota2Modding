@@ -109,7 +109,8 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
         public void Dispose()
         {
-            DotaProject.LoadingStatusUpdated -= DotaProject_LoadingStatusUpdated;
+            if (DotaProject is not null)
+                DotaProject.LoadingStatusUpdated -= DotaProject_LoadingStatusUpdated;
             GC.SuppressFinalize(this);
         }
 
@@ -120,11 +121,27 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             MaxStep = maxStep;
             CurrentStep = currentStep;
         }
-        public async ValueTask Handle(ProjectSelectedEvent @event)
+
+        public async ValueTask CloseProject()
         {
-            await _Handle(@event);
+            await eventBus.Publish(new ProjectUnloadEvent(), default);
+            this.AbilitiesViewModel = null!;
+            this.HeroViewModel = null!;
+            using var proj = this.DotaProject;
+            proj.LoadingStatusUpdated -= DotaProject_LoadingStatusUpdated;
+            this.DotaProject = null!;
+            _ = Task.Run(() =>
+            {
+                foreach (var gen in Enumerable.Range(0, GC.MaxGeneration))
+                {
+                    GC.Collect(gen, GCCollectionMode.Forced, true);
+                    GC.WaitForPendingFinalizers();
+                    GC.WaitForFullGCComplete();
+                }
+            });
         }
-        private async Task _Handle(ProjectSelectedEvent @event)
+
+        public async ValueTask Handle(ProjectSelectedEvent @event)
         {
             var file = @event.SelectedAddonInfoFile;
             try

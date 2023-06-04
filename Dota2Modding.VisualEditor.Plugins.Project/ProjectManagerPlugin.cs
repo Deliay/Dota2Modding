@@ -32,6 +32,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
         {
             builder.ConfigureComponent<ProjectManager>().AsSelf().SingleInstance();
             builder.ConfigureComponent<OpenProjectMenu>().AsSelf().SingleInstance();
+            builder.ConfigureComponent<CloseProjectMenu>().AsSelf().SingleInstance();
             builder.ConfigureComponent<DotaProjectMenu>().AsSelf().SingleInstance();
             //builder.ConfigureComponent<DotaHeroesPanelMenu>().AsSelf().SingleInstance();
             builder.ConfigureComponent<AddonInfoPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
@@ -52,6 +53,9 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             scope.Subscription<ProjectLoadedEvent, OpenProjectMenu>();
             scope.Subscription<ProjectUnloadEvent, OpenProjectMenu>();
 
+            scope.Subscription<ProjectLoadedEvent, CloseProjectMenu>();
+            scope.Subscription<ProjectUnloadEvent, CloseProjectMenu>();
+
             scope.Subscription<ProjectLoadedEvent, AddonInfoPanel>();
             scope.Subscription<ProjectUnloadEvent, AddonInfoPanel>();
 
@@ -68,17 +72,21 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             scope.Subscription<ProjectUnloadEvent, DotaAbilitiesPanel>();
 
             await scope.InitializeMenuItem<OpenProjectMenu>();
+            await scope.InitializeMenuItem<CloseProjectMenu>();
             //await scope.InitializeMenuItem<DotaHeroesPanelMenu>();
         }
 
         public override async ValueTask Uninitialize(ILifetimeScope scope)
         {
             await scope.UnInitializeMenuItem<OpenProjectMenu>();
+            await scope.UnInitializeMenuItem<CloseProjectMenu>();
             //await scope.UnInitializeMenuItem<DotaHeroesPanelMenu>();
             scope.Unsubscription<ProjectSelectedEvent, ProjectManager>();
 
             scope.Unsubscription<ProjectUnloadEvent, OpenProjectMenu>();
             scope.Unsubscription<ProjectLoadedEvent, OpenProjectMenu>();
+            scope.Unsubscription<ProjectUnloadEvent, CloseProjectMenu>();
+            scope.Unsubscription<ProjectLoadedEvent, CloseProjectMenu>();
 
             scope.Unsubscription<ProjectLoadedEvent, AddonInfoPanel>();
             scope.Unsubscription<ProjectUnloadEvent, AddonInfoPanel>();

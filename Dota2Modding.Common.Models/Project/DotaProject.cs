@@ -10,7 +10,7 @@ using System.Linq;
 
 namespace Dota2Modding.Common.Models.Project
 {
-    public class DotaProject
+    public class DotaProject : IDisposable
     {
         public const string AddonCustomAbilities = "scripts\\npc\\npc_abilities_custom.txt";
         public const string AddonCustomHeroes = "scripts\\npc\\npc_heroes_custom.txt";
@@ -108,14 +108,20 @@ namespace Dota2Modding.Common.Models.Project
             Heroes = new DotaHeroesTree.Builder(Packages, AddonHeroesPath).Build();
             LoadingStatusUpdated?.Invoke("Heroes", $"Loaded {Heroes.Mapping.Count} heroes", maxStep, 4);
 
-            LoadingStatusUpdated?.Invoke("Abilities", $"Loaded {Heroes.Mapping.Count} heroes, Loading abilities...", maxStep, 5);
+            LoadingStatusUpdated?.Invoke("Abilities", $"Loading abilities...", maxStep, 5);
             Abilities = new DotaAbilitiesTree.Builder(Packages, AddonAbilitiesPath).Build();
             LoadingStatusUpdated?.Invoke("Abilities", $"Loaded {Abilities.Mapping.Count} abilities", maxStep, 5);
 
-            LoadingStatusUpdated?.Invoke("I18n", $"Loaded {Abilities.Mapping.Count} abilities, Loading localization...", maxStep, 6);
+            LoadingStatusUpdated?.Invoke("I18n", $"Loading localization...", maxStep, 6);
             I18n = new I18nDict.Builder(Packages).Build();
             LoadingStatusUpdated?.Invoke("I18n", $"Loaded {I18n.Languages.Count()} language localizations", maxStep, 6);
 
+        }
+
+        public void Dispose()
+        {
+            GC.SuppressFinalize(this);
+            using var pak = this.Packages;
         }
     }
 }

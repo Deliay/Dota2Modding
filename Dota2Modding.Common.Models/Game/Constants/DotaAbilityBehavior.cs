@@ -8,6 +8,8 @@ namespace Dota2Modding.Common.Models.Game.Constants
 {
     public enum DotaAbilityBehavior
     {
+        DOTA_ABILITY_BEHAVIOR_NONE,
+        DOTA_ABILITY_BEHAVIOR_SHOW_IN_GUIDES,
         DOTA_ABILITY_BEHAVIOR_NO_TARGET,
         DOTA_ABILITY_BEHAVIOR_UNIT_TARGET,
         DOTA_ABILITY_BEHAVIOR_POINT,
@@ -39,5 +41,6 @@ namespace Dota2Modding.Common.Models.Game.Constants
         DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_MOVEMENT,
         DOTA_ABILITY_BEHAVIOR_DONT_CANCEL_CHANNEL,
         DOTA_ABILITY_BEHAVIOR_IGNORE_SILENCE,
+        DOTA_ABILITY_BEHAVIOR_VECTOR_TARGETING,
     }
 }
