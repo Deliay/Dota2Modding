@@ -43,11 +43,18 @@
             <DataGrid
                 Grid.Row="2"
                 hc:DataGridAttach.CanUnselectAllWithBlankArea="True"
+                hc:DataGridAttach.ShowRowNumber="False"
+                hc:DataGridAttach.ShowSelectAllButton="False"
                 AutoGenerateColumns="False"
-                HeadersVisibility="All"
+                HeadersVisibility="Column"
                 RowHeaderWidth="60"
                 Width="Auto"
                 ItemsSource="{Binding HeroList}">
+                <DataGrid.RowHeaderTemplate>
+                    <DataTemplate>
+
+                    </DataTemplate>
+                </DataGrid.RowHeaderTemplate>
                 <DataGrid.Columns>
                     <DataGridTemplateColumn Width="60" CanUserResize="False">
                         <DataGridTemplateColumn.CellTemplate>
