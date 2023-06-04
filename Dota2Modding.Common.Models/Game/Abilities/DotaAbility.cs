@@ -17,25 +17,31 @@ namespace Dota2Modding.Common.Models.Game.Abilities
 
         public string BaseClass
         {
-            get => base["BaseClass"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("BaseClass");
             set => base["BaseClass"] = value;
         }
 
         public string ScriptFile
         {
-            get => base["ScriptFile"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("ScriptFile");
             set => base["ScriptFile"] = value;
         }
 
         public string AbilityTextureName
         {
-            get => base["AbilityTextureName"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("AbilityTextureName");
             set => base["AbilityTextureName"] = value;
+        }
+
+        public int ID
+        {
+            get => GetInt32("ID") ?? 4;
+            set => base["ID"] = value;
         }
 
         public int MaxLevel
         {
-            get => base["MaxLevel"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("MaxLevel") ?? 4;
             set => base["MaxLevel"] = value;
         }
 
@@ -47,7 +53,7 @@ namespace Dota2Modding.Common.Models.Game.Abilities
 
         public float AbilityCastRange
         {
-            get => base["MaxLevel"].ToSingle(CultureInfo.CurrentCulture);
+            get => GetSingle("MaxLevel") ?? 0;
             set => base["MaxLevel"] = value.ToString();
         }
 
@@ -65,25 +71,25 @@ namespace Dota2Modding.Common.Models.Game.Abilities
 
         public int AbilityCastPoint
         {
-            get => base["AbilityCastPoint"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("AbilityCastPoint") ?? 0;
             set => base["AbilityCastPoint"] = value;
         }
 
         public string AbilityManaCost
         {
-            get => base["AbilityManaCost"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("AbilityManaCost");
             set => base["AbilityManaCost"] = value;
         }
 
         public int FightRecapLevel
         {
-            get => base["FightRecapLevel"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("FightRecapLevel") ?? 0;
             set => base["FightRecapLevel"] = value;
         }
 
         public string AbilityCooldown
         {
-            get => base["AbilityCooldown"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("AbilityCooldown");
             set => base["AbilityCooldown"] = value;
         }
 
@@ -94,12 +100,12 @@ namespace Dota2Modding.Common.Models.Game.Abilities
         }
         public int RequiredLevel
         {
-            get => base["RequiredLevel"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("RequiredLevel") ?? 0;
             set => base["RequiredLevel"] = value;
         }
         public int LevelsBetweenUpgrades
         {
-            get => base["LevelsBetweenUpgrades"].ToInt32(CultureInfo.CurrentCulture);
+            get => GetInt32("LevelsBetweenUpgrades") ?? 0;
             set => base["LevelsBetweenUpgrades"] = value;
         }
         /// <summary>
@@ -107,7 +113,7 @@ namespace Dota2Modding.Common.Models.Game.Abilities
         /// </summary>
         public bool IsCastableWhileHidden
         {
-            get => base["IsCastableWhileHidden"].ToBoolean(CultureInfo.CurrentCulture);
+            get => GetBoolean("IsCastableWhileHidden") ?? true;
             set => base["IsCastableWhileHidden"] = value ? 1 : 0;
         }
         public DotaUnitTargetTeam? AbilityUnitTargetTeam

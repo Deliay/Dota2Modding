@@ -19,7 +19,7 @@ namespace Dota2Modding.Common.Models.Game.Abilities
 
         public new string Value
         {
-            get => base["value"].ToString(CultureInfo.CurrentCulture);
+            get => GetString("value");
             set => base["value"] = value;
         }
 

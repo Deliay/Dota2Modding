@@ -37,6 +37,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             builder.ConfigureComponent<AddonInfoPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
             builder.ConfigureComponent<ProjectExplorer>().AsSelf().As<ILayoutedObject>().SingleInstance();
             builder.ConfigureComponent<DotaHeroesPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
+            builder.ConfigureComponent<DotaAbilitiesPanel>().AsSelf().As<ILayoutedObject>().SingleInstance();
         }
 
         public override async ValueTask Initialize(ILifetimeScope scope)
@@ -44,6 +45,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             await scope.RegisterOrOpenPanel<AddonInfoPanel>();
             await scope.RegisterOrOpenPanel<ProjectExplorer>();
             await scope.RegisterOrOpenPanel<DotaHeroesPanel>();
+            await scope.RegisterOrOpenPanel<DotaAbilitiesPanel>();
 
             scope.Subscription<ProjectSelectedEvent, ProjectManager>();
 
@@ -61,6 +63,9 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
             scope.Subscription<ProjectLoadedEvent, DotaHeroesPanel>();
             scope.Subscription<ProjectUnloadEvent, DotaHeroesPanel>();
+
+            scope.Subscription<ProjectLoadedEvent, DotaAbilitiesPanel>();
+            scope.Subscription<ProjectUnloadEvent, DotaAbilitiesPanel>();
 
             await scope.InitializeMenuItem<OpenProjectMenu>();
             //await scope.InitializeMenuItem<DotaHeroesPanelMenu>();
@@ -86,6 +91,9 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
             scope.Unsubscription<ProjectLoadedEvent, DotaHeroesPanel>();
             scope.Unsubscription<ProjectUnloadEvent, DotaHeroesPanel>();
+
+            scope.Unsubscription<ProjectLoadedEvent, DotaAbilitiesPanel>();
+            scope.Unsubscription<ProjectUnloadEvent, DotaAbilitiesPanel>();
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using Autofac;
-using Dota2Modding.Common.Models.Project;
-using Dota2Modding.VisualEditor.GUI.Abstraction.Document;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
 using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Services.EventBus.Handlers;
@@ -20,13 +18,14 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project.Components
 {
     /// <summary>
-    /// Interaction logic for DotaHeroesPanel.xaml
+    /// Interaction logic for DotaAbilitiesPanel.xaml
     /// </summary>
-    public partial class DotaHeroesPanel : UserControl,
+    public partial class DotaAbilitiesPanel : UserControl,
         IViewComponent, ILayoutedDocument,
         IEventHandler<ProjectLoadedEvent>,
         IEventHandler<ProjectUnloadEvent>
@@ -35,16 +34,16 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
         private IWindowManager windowManager;
         private ProjectManager projectManager;
 
-        public DotaHeroesPanel()
+        public DotaAbilitiesPanel()
         {
             InitializeComponent();
         }
 
-        public string Id => "[Guid(\"5B9608F8-879E-4950-8569-F3F9955EF16B\")]";
-
-        public string Title => "Heroes";
-
         public bool Closeable => false;
+
+        public string Id => "[Guid(\"F7C41D92-B278-4463-B027-F28BCC823FC2\")]";
+
+        public string Title => "Abilities";
 
         public void Dispose()
         {
@@ -56,7 +55,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
             this.projectManager = scope.Resolve<ProjectManager>();
             await windowManager.BeginUIThreadScope(() =>
             {
-                this.DataContext = projectManager.HeroViewModel;
+                this.DataContext = this.projectManager.AbilitiesViewModel;
             });
         }
 
@@ -69,6 +68,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
         {
             this.scope = scope;
             this.windowManager = scope.Resolve<IWindowManager>();
+
             return default;
         }
 

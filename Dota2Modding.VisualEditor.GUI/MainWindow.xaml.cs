@@ -190,7 +190,7 @@ namespace Dota2Modding.VisualEditor.GUI
                 }
                 if (config.LastProject.Length > 0)
                 {
-                    EventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = config.LastProject });
+                    Task.Run(() => EventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = config.LastProject }));
                 }
                 //if (File.Exists("layout.xml"))
                 //{

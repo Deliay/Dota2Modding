@@ -1,0 +1,32 @@
+﻿<Border x:Class="Dota2Modding.VisualEditor.Plugins.Project.Components.LoadingOverride"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:hc="https://handyorg.github.io/handycontrol"
+             xmlns:local="clr-namespace:Dota2Modding.VisualEditor.Plugins.Project.Components"
+             mc:Ignorable="d" 
+             Width="400" Height="247"
+             d:DesignHeight="247" d:DesignWidth="400">
+    <hc:SimplePanel>
+        <Viewbox Width="80" Height="80">
+            <TextBlock TextWrapping="Wrap">
+                <TextBlock.Text>
+                    <MultiBinding StringFormat="{}{0}/{1}">
+                        <Binding Path="CurrentStep" />
+                        <Binding Path="MaxStep" />
+                    </MultiBinding>
+                </TextBlock.Text>
+            </TextBlock>
+        </Viewbox>
+        <hc:CircleProgressBar Maximum="{Binding MaxStep}" Value="{Binding CurrentStep}" ShowText="False" Width="120" Height="120"/>
+        <TextBlock>
+            <TextBlock.Text>
+                <MultiBinding StringFormat="{}{0}: {1}">
+                    <Binding Path="Phase" />
+                    <Binding Path="Message" />
+                </MultiBinding>
+            </TextBlock.Text>
+        </TextBlock>
+    </hc:SimplePanel>
+</Border>

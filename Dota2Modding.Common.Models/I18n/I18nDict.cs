@@ -39,7 +39,7 @@ namespace Dota2Modding.Common.Models.I18n
                     dicts.Add(lang, new I18nTokens(lang));
                 }
 
-                dicts[lang].AddOverride(new BasicObject(lang, tokens));
+                dicts[lang].AddOverride(new IgnoreCaseBasicObject(new BasicObject(lang, tokens)));
             }
         }
 

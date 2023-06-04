@@ -17,7 +17,7 @@ using System.Windows.Media.Imaging;
 using ValveKeyValue;
 using ValveResourceFormat.ResourceTypes;
 
-namespace Dota2Modding.VisualEditor.Plugins.Project.Components
+namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 {
     public class DotaHeroViewModel : INotifyPropertyChanged
     {
@@ -29,24 +29,24 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
         public DotaHeroViewModel(DotaProject project)
         {
             this.project = project;
-            this.Language = project.I18n.Languages.FirstOrDefault(v => v == "English" || v == "schinese");
-            this.SnapshotHeroList = EnumerableHeroList().OrderBy((h) => h.HeroID).ToList();
-            this.HeroSources = project.Heroes.Mapping.Values.Select(e => e.GetPath()).ToHashSet();
-            this.SearchCommand = new(SearchCommandLocal, (str) => true);
+            Language = project.I18n.Languages.FirstOrDefault(v => v == "English" || v == "schinese");
+            SnapshotHeroList = EnumerableHeroList().OrderBy((h) => h.HeroID).ToList();
+            HeroSources = project.Heroes.Mapping.Values.Select(e => e.GetPath()).ToHashSet();
+            SearchCommand = new(SearchCommandLocal, (str) => true);
         }
 
         public class HeroGridItem : DotaHero
         {
             private readonly DotaHeroViewModel vm;
 
-            public ImageSource Avatar { get; set; }
+            public ImageSource Avatar => vm.GetHeroAvatar(this);
 
-            public string? DisplayName => vm.project.I18n.GetToken(vm.Language, this.Name)
-                ?? vm.project.I18n.GetToken(vm.Language, $"{this.Name}:n")
-                ?? vm.project.I18n.GetToken(vm.Language, $"{this.OverrideHero}")
-                ?? vm.project.I18n.GetToken(vm.Language, $"{this.OverrideHero}:n");
+            public string? DisplayName => vm.project.I18n.GetToken(vm.Language, Name)
+                ?? vm.project.I18n.GetToken(vm.Language, $"{Name}:n")
+                ?? vm.project.I18n.GetToken(vm.Language, $"{OverrideHero}")
+                ?? vm.project.I18n.GetToken(vm.Language, $"{OverrideHero}:n");
 
-            public string GetSearchCriteria() => $"{this.Name} {this.DisplayName} {this.HeroName} {this.HeroID}";
+            public string GetSearchCriteria() => $"{Name} {DisplayName} {HeroName} {HeroID}";
 
             public HeroGridItem(DotaHeroViewModel vm, string name, KVValue value, IEnumerable<BasicObject> overrides) : base(name, value)
             {
@@ -108,10 +108,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
 
                 if (hero is null) continue;
 
-                yield return new HeroGridItem(this, key, hero.Value, hero.Overrides)
-                {
-                    Avatar = GetHeroAvatar(hero),
-                };
+                yield return new HeroGridItem(this, key, hero.Value, hero.Overrides);
             }
         }
 

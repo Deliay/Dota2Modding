@@ -17,7 +17,6 @@ namespace Dota2Modding.Common.Models.Project
         public const string AddonCustomItems = "scripts\\npc\\npc_items_custom.txt";
         public const string AddonCustomUnits = "scripts\\npc\\npc_units_custom.txt";
 
-        private readonly ILogger<DotaProject> logger;
         private readonly string addonInfoFilePath;
 
         public string WorkingDirectory { get; }
@@ -36,9 +35,8 @@ namespace Dota2Modding.Common.Models.Project
 
         public I18nDict I18n { get; private set; }
 
-        public DotaProject(ILogger<DotaProject> logger, string addonInfoFilePath, Dota2Locator dota2Locator)
+        public DotaProject(string addonInfoFilePath, Dota2Locator dota2Locator)
         {
-            this.logger = logger;
             this.addonInfoFilePath = addonInfoFilePath;
             WorkingDirectory = Path.GetDirectoryName(addonInfoFilePath)!;
             WorkingDirectoryName = Path.GetFileName(WorkingDirectory)!;
@@ -64,23 +62,30 @@ namespace Dota2Modding.Common.Models.Project
             }
         }
 
-        public void InitBasePackages()
+        public delegate void StatusUpdate(string phase, string message, int maxStep, int currentStep);
+
+        public event StatusUpdate LoadingStatusUpdated;
+
+        public const int InitStep = 7;
+
+        public void InitBasePackages(int extraStep = 0)
         {
+            int maxStep = extraStep + InitStep;
             // TODO refactor: move logging to event
-            logger.LogInformation("Starting loading dota2 files");
+            LoadingStatusUpdated?.Invoke("Init", "Starting loading dota2 files", maxStep, 1);
 
             foreach (var vpk in GenerateDota2BasicVPKs(Dota2Directory))
             {
-                logger.LogInformation($"Load VPK: {vpk}");
+                LoadingStatusUpdated?.Invoke("VPK", $"Load VPK: {vpk}", maxStep, 2);
                 Packages.AddVpk(vpk);
             }
-            logger.LogInformation($"Indexed {Packages.Count} files");
+            LoadingStatusUpdated?.Invoke("VPK", $"Indexed {Packages.Count} files", maxStep, 2);
 
-            logger.LogInformation("Starting loading addon-ins files");
+            LoadingStatusUpdated?.Invoke("Addon", "Starting loading addon-ins files", maxStep, 3);
             Packages.AddAddon(addonInfoFilePath);
-            logger.LogInformation($"Indexed {Packages.Count} files");
+            LoadingStatusUpdated?.Invoke("Addon", $"Indexed {Packages.Count} files", maxStep, 3);
 
-            logger.LogInformation($"Resolving addoninfo.txt");
+            LoadingStatusUpdated?.Invoke("Addon", $"Resolving addoninfo.txt", maxStep, 3);
 
             var addonInfoEntry = Packages.RootFolder.Folders.Values
                 .Where(folder => !folder.IsVirtual)
@@ -92,24 +97,24 @@ namespace Dota2Modding.Common.Models.Project
                 return;
             }
 
-            logger.LogInformation($"Found {addonInfoEntry.FullName}");
+            LoadingStatusUpdated?.Invoke("Addon", $"Found {addonInfoEntry.FullName}", maxStep, 3);
 
             var kvObject = KvLoader.Parse(Path.Combine(addonInfoEntry.Source.Path, addonInfoEntry.FullName));
             AddonInfo = new(kvObject.Name, kvObject.Value);
             AddonInfo.SetSite(addonInfoEntry);
-            logger.LogInformation($"Dota2 custom game [{addonInfoEntry.Path}] loaded ");
+            LoadingStatusUpdated?.Invoke("Addon", $"Dota2 custom game [{addonInfoEntry.Path}] loaded ", maxStep, 3);
 
-            logger.LogInformation($"Loading heroes");
+            LoadingStatusUpdated?.Invoke("Heroes", $"Loading heroes...", maxStep, 4);
             Heroes = new DotaHeroesTree.Builder(Packages, AddonHeroesPath).Build();
-            logger.LogInformation($"Loaded {Heroes.Mapping.Count} heroes");
+            LoadingStatusUpdated?.Invoke("Heroes", $"Loaded {Heroes.Mapping.Count} heroes", maxStep, 4);
 
-            logger.LogInformation($"Loading abilities");
+            LoadingStatusUpdated?.Invoke("Abilities", $"Loaded {Heroes.Mapping.Count} heroes, Loading abilities...", maxStep, 5);
             Abilities = new DotaAbilitiesTree.Builder(Packages, AddonAbilitiesPath).Build();
-            logger.LogInformation($"Loaded {Abilities.Mapping.Count} abilities");
+            LoadingStatusUpdated?.Invoke("Abilities", $"Loaded {Abilities.Mapping.Count} abilities", maxStep, 5);
 
-            logger.LogInformation("Loading localization");
+            LoadingStatusUpdated?.Invoke("I18n", $"Loaded {Abilities.Mapping.Count} abilities, Loading localization...", maxStep, 6);
             I18n = new I18nDict.Builder(Packages).Build();
-            logger.LogInformation($"Loaded {I18n.Languages.Count()} language localizations");
+            LoadingStatusUpdated?.Invoke("I18n", $"Loaded {I18n.Languages.Count()} language localizations", maxStep, 6);
 
         }
     }

@@ -5,12 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Dota2Modding.VisualEditor.Plugins.Project.Components"
              xmlns:hc="https://handyorg.github.io/handycontrol"
-             xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
              xmlns:ve="clr-namespace:Dota2Modding.VisualEditor.GUI.Customize;assembly=Dota2Modding.VisualEditor"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <ve:KvPropertyGrid x:Name="grid">
         </ve:KvPropertyGrid>
+        <hc:DialogContainer>
+            
+        </hc:DialogContainer>
     </Grid>
 </UserControl>

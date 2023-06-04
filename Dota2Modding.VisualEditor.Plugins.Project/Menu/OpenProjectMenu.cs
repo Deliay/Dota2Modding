@@ -5,6 +5,7 @@ using Dota2Modding.VisualEditor.GUI.Abstraction.Menu;
 using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Services.EventBus;
 using EmberKernel.Services.EventBus.Handlers;
+using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using Microsoft.WindowsAPICodePack.Dialogs;
 using System;
 using System.Collections.Generic;
@@ -21,6 +22,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
     {
         private readonly Dota2Locator dota2Locator;
         private readonly IEventBus eventBus;
+        private readonly IWindowManager windowManager;
 
         public override string Id => "B273E1D7-E0B5-462E-8991-619F372ABBD1";
 
@@ -34,9 +36,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
 
         public bool IsProjectOpend { get; private set; } = false;
 
-        public OpenProjectMenu(IEventBus eventBus)
+        public OpenProjectMenu(IEventBus eventBus, IWindowManager windowManager)
         {
             this.eventBus = eventBus;
+            this.windowManager = windowManager;
             dota2Locator = new Dota2Locator();
         }
 
@@ -61,7 +64,8 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
             var result = dialog.ShowDialog();
             if (result == CommonFileDialogResult.Ok)
             {
-                eventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = dialog.FileName! });
+                // wrap in new task
+                Task.Run(() => eventBus.Publish(new ProjectSelectedEvent() { SelectedAddonInfoFile = dialog.FileName! }));
             }
         }
 
@@ -70,20 +74,17 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Menu
             GC.SuppressFinalize(this);
         }
 
-        public ValueTask Handle(ProjectLoadedEvent @event)
+        public async ValueTask Handle(ProjectLoadedEvent @event)
         {
             IsProjectOpend = true;
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+            await windowManager.BeginUIThreadScope(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
 
-            return default;
         }
 
-        public ValueTask Handle(ProjectUnloadEvent @event)
+        public async ValueTask Handle(ProjectUnloadEvent @event)
         {
             IsProjectOpend = false;
-            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-
-            return default;
+            await windowManager.BeginUIThreadScope(() => CanExecuteChanged?.Invoke(this, EventArgs.Empty));
         }
 
         public override bool CanExecute(object? parameter)

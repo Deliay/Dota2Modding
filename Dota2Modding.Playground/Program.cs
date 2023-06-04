@@ -17,7 +17,6 @@ var path = Path.Combine(dota2base, @"game\dota_addons\aghanim_zero\addoninfo.txt
 var folder = Path.GetDirectoryName(path);
 var folderName = Path.GetFileName(folder);
 var exist = File.Exists(path);
-var lf = new LoggerFactory();
-var proj = new DotaProject(lf.CreateLogger<DotaProject>(), path, new Dota2Locator());
+var proj = new DotaProject(path, new Dota2Locator());
 proj.InitBasePackages();
 Console.WriteLine("Complete");

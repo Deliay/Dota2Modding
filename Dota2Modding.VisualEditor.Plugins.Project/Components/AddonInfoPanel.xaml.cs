@@ -5,6 +5,8 @@ using Dota2Modding.VisualEditor.Plugins.Project.Abstraction.Events;
 using EmberKernel.Services.EventBus.Handlers;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
+using HandyControl.Controls;
+using HandyControl.Tools.Extension;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +33,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
     {
         private ILifetimeScope scope;
         private IWindowManager windowManager;
+        private Dialog dialog;
 
         public AddonInfoPanel()
         {
