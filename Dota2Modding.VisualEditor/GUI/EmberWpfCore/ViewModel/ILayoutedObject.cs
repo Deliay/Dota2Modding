@@ -12,5 +12,6 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
         public string Id { get; }
 
         public string Title { get; }
+        public bool Closeable { get; }
     }
 }

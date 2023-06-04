@@ -107,22 +107,26 @@ namespace Dota2Modding.VisualEditor.GUI
         {
 
             var pos = anchorable.Content is IDefaultLayoutStrategy defaultLayoutItem ? defaultLayoutItem.DefaultStrategy : AnchorSide.Left;
-            anchorable.AddToLayout(dockManager, AnchorableShowStrategy.Most);
+            //anchorable.AddToLayout(dockManager, AnchorableShowStrategy.Most);
             var pane = pos switch
             {
-                AnchorSide.Left => dockManager.Layout.LeftSide,
-                AnchorSide.Right => dockManager.Layout.RightSide,
-                AnchorSide.Top => dockManager.Layout.TopSide,
-                _ => dockManager.Layout.BottomSide,
+                AnchorSide.Left => left,
+                AnchorSide.Right => right,
+                _ => bottom,
             };
-            var group = pane.Descendents().OfType<LayoutAnchorGroup>().FirstOrDefault()!;
-            if (group == null)
+
+            anchorable.AddToLayout(dockManager, AnchorableShowStrategy.Most);
+            pane.Children.Add(anchorable);
+
+            if (anchorable.Content is ILayoutedPanel panel)
             {
-                group = new LayoutAnchorGroup();
-                pane.InsertChildAt(0, group);
+                if (panel.InitialDock)
+                {
+                    anchorable.IsVisible = true;
+                    anchorable.IsSelected = true;
+                }
             }
 
-            group.InsertChildAt(0, anchorable);
         }
 
         public void RemoveFromLayout(LayoutAnchorable anchorable)

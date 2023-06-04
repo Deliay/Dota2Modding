@@ -8,6 +8,5 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
 {
     public interface ILayoutedDocument : ILayoutedObject
     {
-        public bool Closeable { get; }
     }
 }

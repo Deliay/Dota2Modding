@@ -46,6 +46,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
 
         public AnchorSide DefaultStrategy => AnchorSide.Right;
 
+        public bool Closeable => false;
+
+        public bool InitialDock => true;
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

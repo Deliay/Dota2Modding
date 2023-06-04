@@ -12,14 +12,52 @@
             <TreeView.Resources>
                 <DataTemplate x:Key="FolderTemplate" DataType="{x:Type cm:FolderView}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="pack://application:,,,/Dota2Modding.VisualEditor.Plugins.Project;component/Resources/_folder.png" Width="16" Height="16" Margin="0,0,4,0" />
+                        <Image Width="16" Height="16" Margin="0,0,4,0">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="{StaticResource Folder}" />
+                                    <Style.Triggers>
+                                        <DataTrigger
+                                            Binding="{Binding Path=IsExpanded, RelativeSource={RelativeSource AncestorType={x:Type TreeViewItem}}}"
+                                            Value="True">
+                                            <Setter Property="Source" Value="{StaticResource FolderOpened}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
                         <TextBlock Text="{Binding DisplayName}" />
                     </StackPanel>
                 </DataTemplate>
 
-                <DataTemplate x:Key="FileTemplate" DataType="{x:Type cm:FolderView}">
+                <DataTemplate x:Key="FolderOpenTemplate" DataType="{x:Type cm:FolderView}">
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="/Dota2Modding.VisualEditor.Plugins.Project;component/Resources/_default.png" Width="16" Height="16" Margin="0,0,4,0" />
+                        <Image Source="{StaticResource FolderOpen}" Width="16" Height="16" Margin="0,0,4,0" />
+                        <TextBlock Text="{Binding DisplayName}" />
+                    </StackPanel>
+                </DataTemplate>
+
+                <DataTemplate x:Key="FileTemplate" DataType="{x:Type cm:Entry}">
+                    <StackPanel Orientation="Horizontal">
+                        <Image Width="16" Height="16" Margin="0,0,4,0">
+                            <Image.Style>
+                                <Style TargetType="Image">
+                                    <Setter Property="Source" Value="{StaticResource File}" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Extension}" Value="png">
+                                            <Setter Property="Source" Value="{StaticResource FileImage}" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding Extension}" Value="lua">
+                                            <Setter Property="Source" Value="{StaticResource FileCode}" />
+                                        </DataTrigger>
+
+                                        <DataTrigger Binding="{Binding Extension}" Value="txt">
+                                            <Setter Property="Source" Value="{StaticResource FilePlain}" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Image.Style>
+                        </Image>
                         <TextBlock Text="{Binding DisplayName}" />
                     </StackPanel>
                 </DataTemplate>

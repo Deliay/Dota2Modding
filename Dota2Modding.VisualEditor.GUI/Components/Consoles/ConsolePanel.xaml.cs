@@ -35,6 +35,10 @@ namespace Dota2Modding.VisualEditor.GUI.Components.Consoles
 
         public int InitialHeight => 200;
 
+        public bool Closeable => false;
+
+        public bool InitialDock => true;
+
         public void Dispose()
         {
         }

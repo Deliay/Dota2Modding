@@ -21,12 +21,21 @@ using System.Xml.Linq;
 using EmberKernel.Services.UI.Mvvm.Extension;
 using Dota2Modding.VisualEditor.Plugins.Project.Components;
 using Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel;
+using EmberCore.KernelServices.UI.View;
+using System.Windows;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
     [EmberPlugin(Author = "ZeroAsh", Name = "Dota 2 Modding - Project Manager", Version = "0.0.1")]
-    public class ProjectManagerPlugin : Plugin
+    public class ProjectManagerPlugin : Plugin, ICoreWpfPlugin
     {
+        public void BuildApplication(Application application)
+        {
+            application.Resources.MergedDictionaries.Add(new ResourceDictionary
+            {
+                Source = new Uri("pack://application:,,,/Dota2Modding.VisualEditor.Plugins.Project;Component/resources.xaml", UriKind.Absolute)
+            });
+        }
 
         public override void BuildComponents(IComponentBuilder builder)
         {

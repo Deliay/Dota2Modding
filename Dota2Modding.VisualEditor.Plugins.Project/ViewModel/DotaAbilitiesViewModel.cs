@@ -34,8 +34,8 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
             Language = project.I18n.Languages.FirstOrDefault(v => v == "English" || v == "schinese");
             SnapshotAbilityList = EnumerableAbilities().OrderBy((h) => h.ID).ToList();
             AbilitySources = project.Abilities.Mapping.Values.Select(e => e.GetPath()).ToHashSet();
-            SelectedSource = AbilitySources.FirstOrDefault(s => s.Contains("npc_abilities_custom"));
             SearchCommand = new(SearchCommandLocal, (str) => true);
+            ShowEditable = true;
         }
 
         public class AbilityGridItem : DotaAbility
@@ -139,6 +139,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
                 result = result.Where(h => h.GetSearchCriteria().ToLower().Contains(searchText.ToLower()));
             }
 
+            if (showEditable)
+            {
+                result = result.Where(h => !project.Abilities.Mapping[h.Name].Source.IsVpk);
+            }
 
             return result;
         }
@@ -153,6 +157,15 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
         public IEnumerable<AbilityGridItem> AbilityList => EnumerableCachedAbilityList();
 
         public HashSet<string> AbilitySources { get; private set; }
+
+        private bool showEditable;
+
+        public bool ShowEditable
+        {
+            get { return showEditable; }
+            set { showEditable = value; OnPropertyChanged(); OnPropertyChanged(nameof(AbilityList)); }
+        }
+
 
         public string searchText;
         public string SearchText

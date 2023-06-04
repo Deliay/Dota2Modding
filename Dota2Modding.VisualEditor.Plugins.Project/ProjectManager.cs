@@ -120,6 +120,8 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             Message = message;
             MaxStep = maxStep;
             CurrentStep = currentStep;
+
+            logger.LogInformation($"({currentStep}/{maxStep})Loading {phase}: {message}");
         }
 
         public async ValueTask CloseProject()
@@ -162,7 +164,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
 
                 DotaProject_LoadingStatusUpdated("UI", $"Preparing UI for {DotaProject.Heroes.Mapping.Count} heroes", DotaProject.InitStep + extraStep, DotaProject.InitStep + 1);
                 HeroViewModel = new(DotaProject);
-                DotaProject_LoadingStatusUpdated("UI", $"Preparing UI for {DotaProject.Heroes.Mapping.Count} heroes", DotaProject.InitStep + extraStep, DotaProject.InitStep + 2);
+                DotaProject_LoadingStatusUpdated("UI", $"Preparing UI for {DotaProject.Abilities.Mapping.Count} abilities", DotaProject.InitStep + extraStep, DotaProject.InitStep + 2);
                 AbilitiesViewModel = new(DotaProject);
                 DotaProject_LoadingStatusUpdated("UI", $"Done", DotaProject.InitStep + extraStep, DotaProject.InitStep + 3);
                 Loading = false;

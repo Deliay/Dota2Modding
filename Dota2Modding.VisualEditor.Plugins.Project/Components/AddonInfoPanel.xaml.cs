@@ -48,6 +48,10 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
 
         public string Title => "Addon Information";
 
+        public bool Closeable => false;
+
+        public bool InitialDock => true;
+
         public void Dispose()
         {
             GC.SuppressFinalize(this);

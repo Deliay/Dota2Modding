@@ -6,6 +6,7 @@ using EmberKernel;
 using EmberKernel.Plugins.Components;
 using EmberKernel.Services.UI.Mvvm.ViewComponent;
 using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
+using HandyControl.Tools.Extension;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -75,6 +76,8 @@ namespace EmberWpfCore.ViewModel
                         ContentId = Id,
                         Title = Title,
                         Content = control,
+                        CanClose = control.Closeable,
+                        CanHide = control.Closeable,
                     };
                     Items.Add(item);
                     return item;

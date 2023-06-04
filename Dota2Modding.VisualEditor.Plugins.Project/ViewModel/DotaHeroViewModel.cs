@@ -33,6 +33,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
             SnapshotHeroList = EnumerableHeroList().OrderBy((h) => h.HeroID).ToList();
             HeroSources = project.Heroes.Mapping.Values.Select(e => e.GetPath()).ToHashSet();
             SearchCommand = new(SearchCommandLocal, (str) => true);
+            ShowEditable = true;
         }
 
         public class HeroGridItem : DotaHero
@@ -129,7 +130,11 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
             {
                 result = result.Where(h => h.GetSearchCriteria().ToLower().Contains(searchText.ToLower()));
             }
-
+            
+            if (showEditable)
+            {
+                result = result.Where(h => !project.Heroes.Mapping[h.Name].Source.IsVpk);
+            }
 
             return result;
         }
@@ -144,6 +149,15 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
         public IEnumerable<HeroGridItem> HeroList => EnumerableCachedHeroList();
 
         public HashSet<string> HeroSources { get; private set; }
+
+        private bool showEditable;
+
+        public bool ShowEditable
+        {
+            get { return showEditable; }
+            set { showEditable = value; OnPropertyChanged(); OnPropertyChanged(nameof(HeroList)); }
+        }
+
 
         public string searchText;
         public string SearchText

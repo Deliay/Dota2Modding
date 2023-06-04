@@ -18,7 +18,10 @@
         <Menu Grid.Row="0" x:Name="menu" IsMainMenu="True">
             <Menu.ItemTemplate>
                 <HierarchicalDataTemplate ItemsSource="{Binding BindsDirectlyToSource=True}">
-                    <TextBlock Text="{Binding Name}"/>
+                    <StackPanel>
+                        <Image Source="{Binding Icon}" />
+                        <TextBlock Text="{Binding Name}"/>
+                    </StackPanel>
                 </HierarchicalDataTemplate>
             </Menu.ItemTemplate>
         </Menu>
@@ -42,11 +45,23 @@
                 </DockingManager.DocumentHeaderTemplate>
 
                 <LayoutRoot>
-                    <LayoutPanel Orientation="Horizontal">
-                        <LayoutDocumentPaneGroup x:Name="documents">
-                            <LayoutDocumentPane x:Name="LayoutDocumentPane">
-                            </LayoutDocumentPane>
-                        </LayoutDocumentPaneGroup>
+                    <LayoutPanel Orientation="Vertical">
+                        <LayoutPanel Orientation="Horizontal">
+                            <LayoutAnchorablePane DockWidth="240" DockMinWidth="100" DockMinHeight="100" x:Name="left">
+                            </LayoutAnchorablePane>
+
+                            <LayoutDocumentPaneGroup x:Name="documents" Orientation="Horizontal">
+                                <LayoutDocumentPane x:Name="LayoutDocumentPane">
+                                </LayoutDocumentPane>
+                            </LayoutDocumentPaneGroup>
+
+                            <LayoutAnchorablePane DockWidth="240" DockMinWidth="100" DockMinHeight="100" x:Name="right">
+                            </LayoutAnchorablePane>
+                        </LayoutPanel>
+                        <LayoutAnchorablePaneGroup DockHeight="140" DockMinWidth="100" DockMinHeight="100">
+                            <LayoutAnchorablePane DockHeight="140" DockMinWidth="100" DockMinHeight="100" x:Name="bottom">
+                            </LayoutAnchorablePane>
+                        </LayoutAnchorablePaneGroup>
                     </LayoutPanel>
 
                     <LayoutRoot.LeftSide>
@@ -67,14 +82,7 @@
                         </LayoutAnchorSide>
                     </LayoutRoot.RightSide>
 
-                    <LayoutRoot.TopSide>
-                        <LayoutAnchorSide>
-                            <LayoutAnchorGroup></LayoutAnchorGroup>
-                        </LayoutAnchorSide>
-                    </LayoutRoot.TopSide>
                 </LayoutRoot>
-
-
             </DockingManager>
         </hc:SimplePanel>
     </Grid>

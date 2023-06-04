@@ -9,5 +9,7 @@ namespace Dota2Modding.VisualEditor.GUI.EmberWpfCore.ViewModel
     public interface ILayoutedPanel : ILayoutedObject
     {
         public int InitialHeight { get; }
+
+        public bool InitialDock { get; }
     }
 }

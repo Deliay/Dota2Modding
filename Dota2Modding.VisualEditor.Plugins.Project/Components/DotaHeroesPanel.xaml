@@ -30,11 +30,12 @@
                         SelectedItem="{Binding SelectedSource}"/>
                     <hc:Divider LineStrokeThickness="2" Orientation="Vertical" MaxHeight="16"/>
                     <hc:SearchBar
-                        Width="200"
+                        Width="180"
                         hc:InfoElement.Placeholder="Search heroes"
                         hc:InfoElement.ShowClearButton="True"
                         CommandParameter="{Binding Text,RelativeSource={RelativeSource Self}}"
                         Command="{Binding SearchCommand}"/>
+                    <CheckBox Content="Show Editable" IsChecked="{Binding ShowEditable}"/>
                 </hc:UniformSpacingPanel>
             </hc:SimpleStackPanel>
             
