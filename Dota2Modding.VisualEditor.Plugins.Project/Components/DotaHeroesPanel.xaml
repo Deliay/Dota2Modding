@@ -66,9 +66,9 @@
                     <DataGridTextColumn Width="48" IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroID}" Header="#"/>
                     <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding DisplayName}" Header="Name"/>
                     <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroKey}" Header="Key"/>
+                    <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding OverrideHero}" Header="Override"/>
                     <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding HeroName}" Header="Unit Name"/>
                     <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding BaseClass}" Header="Base Class"/>
-                    <DataGridTextColumn Width="150" IsReadOnly="True" CanUserResize="True" Binding="{Binding OverrideHero}" Header="Override"/>
                 </DataGrid.Columns>
             </DataGrid>
         </Grid>
