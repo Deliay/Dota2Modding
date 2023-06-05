@@ -13,7 +13,7 @@ using ValveKeyValue;
 using System.IO;
 using Dota2Modding.Common.Models.GameStructure;
 using Dota2Modding.Common.Models.Game.Entities;
-using static Dota2Modding.VisualEditor.Plugins.Project.ViewModel.DotaHeroViewModel;
+using static Dota2Modding.VisualEditor.Plugins.Project.ViewModel.DotaHeroesViewModel;
 using HandyControl.Tools.Command;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel

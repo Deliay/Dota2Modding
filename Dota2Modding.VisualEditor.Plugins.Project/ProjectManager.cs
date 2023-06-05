@@ -20,13 +20,14 @@ using EmberKernel.Services.UI.Mvvm.ViewComponent.Window;
 using HandyControl.Controls;
 using HandyControl.Tools.Extension;
 using Dota2Modding.VisualEditor.Plugins.Project.ViewModel;
+using System.Diagnostics;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project
 {
     public class ProjectManager : EmberKernel.Plugins.Components.IComponent, IEventHandler<ProjectSelectedEvent>, INotifyPropertyChanged
     {
         public DotaAbilitiesViewModel AbilitiesViewModel { get; private set; }
-        public DotaHeroViewModel HeroViewModel { get; private set; }
+        public DotaHeroesViewModel HeroViewModel { get; private set; }
         public DotaProject DotaProject { get; private set; }
 
         private readonly IEventBus eventBus;
@@ -154,6 +155,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
                     dialog.DataContext = this;
                     dialog.Initialize<ProjectManager>(_ => { });
                 });
+                Stopwatch sw = Stopwatch.StartNew();
                 DotaProject = new(file, new Dota2Locator());
 
                 DotaProject.LoadingStatusUpdated += DotaProject_LoadingStatusUpdated;
@@ -168,6 +170,8 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
                 AbilitiesViewModel = new(DotaProject);
                 DotaProject_LoadingStatusUpdated("UI", $"Done", DotaProject.InitStep + extraStep, DotaProject.InitStep + 3);
                 Loading = false;
+                sw.Stop();
+                logger.LogInformation($"Load project took {sw.Elapsed.TotalSeconds} seconds");
 
                 await eventBus.Publish(new ProjectLoadedEvent()
                 {

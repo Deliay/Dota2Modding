@@ -19,14 +19,14 @@ using ValveResourceFormat.ResourceTypes;
 
 namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 {
-    public class DotaHeroViewModel : INotifyPropertyChanged
+    public class DotaHeroesViewModel : INotifyPropertyChanged
     {
         private readonly DotaProject project;
 
         public event PropertyChangedEventHandler? PropertyChanged;
 
 
-        public DotaHeroViewModel(DotaProject project)
+        public DotaHeroesViewModel(DotaProject project)
         {
             this.project = project;
             Language = project.I18n.Languages.FirstOrDefault(v => v == "English" || v == "schinese");
@@ -38,7 +38,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 
         public class HeroGridItem : DotaHero
         {
-            private readonly DotaHeroViewModel vm;
+            private readonly DotaHeroesViewModel vm;
 
             public ImageSource Avatar => vm.GetHeroAvatar(this);
 
@@ -51,7 +51,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 
             public string SearchCriteria { get; }
 
-            public HeroGridItem(DotaHeroViewModel vm, string name, KVValue value, IEnumerable<BasicObject> overrides) : base(name, value)
+            public HeroGridItem(DotaHeroesViewModel vm, string name, KVValue value, IEnumerable<BasicObject> overrides) : base(name, value)
             {
                 AddOverride(overrides);
                 this.vm = vm;
