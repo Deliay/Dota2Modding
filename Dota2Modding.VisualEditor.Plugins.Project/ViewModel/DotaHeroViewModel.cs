@@ -47,12 +47,21 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
                 ?? vm.project.I18n.GetToken(vm.Language, $"{OverrideHero}")
                 ?? vm.project.I18n.GetToken(vm.Language, $"{OverrideHero}:n");
 
-            public string GetSearchCriteria() => $"{Name} {DisplayName} {HeroName} {HeroID}";
+            public bool Editable { get; }
+
+            public string SearchCriteria { get; }
 
             public HeroGridItem(DotaHeroViewModel vm, string name, KVValue value, IEnumerable<BasicObject> overrides) : base(name, value)
             {
                 AddOverride(overrides);
                 this.vm = vm;
+                Editable = !this.vm.project.Heroes.Mapping[Name].Source.IsVpk;
+                SearchCriteria = $"{Name} {DisplayName} {HeroName} {HeroID}".ToLower();
+            }
+
+            public bool Match(string criteria)
+            {
+                return SearchCriteria.Contains(criteria.ToLower());
             }
         }
 
@@ -128,12 +137,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                result = result.Where(h => h.GetSearchCriteria().ToLower().Contains(searchText.ToLower()));
+                result = result.Where(h => h.Match(searchText));
             }
             
             if (showEditable)
             {
-                result = result.Where(h => !project.Heroes.Mapping[h.Name].Source.IsVpk);
+                result = result.Where(h => h.Editable);
             }
 
             return result;

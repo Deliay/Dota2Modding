@@ -47,13 +47,21 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
             public AbilityGridItem(DotaAbilitiesViewModel vm, string name, KVValue value) : base(name, value)
             {
                 this.vm = vm;
+                SearchCriteria = $"{Name} {DisplayName}".ToLower();
+                Editable = !vm.project.Abilities.Mapping[Name].Source.IsVpk;
             }
             private const string I18nPrefix = "DOTA_Tooltip_ability_";
             public string? DisplayName => vm.project.I18n.GetToken(vm.Language, Name)
                 ?? vm.project.I18n.GetToken(vm.Language, $"{I18nPrefix}{Name}");
 
-            public string GetSearchCriteria() => $"{Name} {DisplayName}";
+            public string SearchCriteria { get; }
 
+            public bool Match(string criteria)
+            {
+                return SearchCriteria.Contains(criteria.ToLower());
+            }
+
+            public bool Editable { get; }
         }
 
         private const string SpellIconFolder = "panorama/images/spellicons/";
@@ -136,12 +144,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
 
             if (!string.IsNullOrEmpty(searchText))
             {
-                result = result.Where(h => h.GetSearchCriteria().ToLower().Contains(searchText.ToLower()));
+                result = result.Where(h => h.Match(searchText));
             }
 
             if (showEditable)
             {
-                result = result.Where(h => !project.Abilities.Mapping[h.Name].Source.IsVpk);
+                result = result.Where(h => h.Editable);
             }
 
             return result;
