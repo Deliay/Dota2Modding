@@ -19,4 +19,4 @@ var folderName = Path.GetFileName(folder);
 var exist = File.Exists(path);
 var proj = new DotaProject(path, new Dota2Locator());
 proj.InitBasePackages();
-Console.WriteLine("Complete");
+Console.WriteLine("Complete"); 
