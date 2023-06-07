@@ -48,7 +48,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.ViewModel
             {
                 this.vm = vm;
                 SearchCriteria = $"{Name} {DisplayName}".ToLower();
-                Editable = !vm.project.Abilities.Mapping[Name].Source.IsVpk;
+                Editable = !vm.project.Abilities.Mapping[this].Source.IsVpk;
             }
             private const string I18nPrefix = "DOTA_Tooltip_ability_";
             public string? DisplayName => vm.project.I18n.GetToken(vm.Language, Name)

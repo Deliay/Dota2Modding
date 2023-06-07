@@ -20,5 +20,22 @@ namespace Dota2Modding.Common.Models.KvTree
         {
             this.mapping = mapping;
         }
+
+        /// <summary>
+        /// Select a file and save entity to disk, If entity last exist in any other files then remove all from other file
+        /// first and save it to target file.
+        /// </summary>
+        /// <param name="entity"></param>
+        public void Save(Entry entry, TItem entity)
+        {
+            if (mapping.TryGetValue(entity, out var existEntry))
+            {
+                // all entry from FS tree are same instance
+                if (entry == existEntry)
+                {
+
+                }
+            }
+        }
     }
 }

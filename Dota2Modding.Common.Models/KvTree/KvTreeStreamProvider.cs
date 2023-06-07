@@ -32,7 +32,6 @@ namespace Dota2Modding.Common.Models.KvTree
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         private Stream GetStream(Entry entry)
