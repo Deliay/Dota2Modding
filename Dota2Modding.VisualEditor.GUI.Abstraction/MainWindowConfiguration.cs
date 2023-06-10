@@ -11,5 +11,7 @@ namespace Dota2Modding.VisualEditor.GUI.Abstraction
         public double Width { get; set; }
         public double Height { get; set; }
         public string LastProject { get; set; } = string.Empty;
+
+        public bool EditorConfirmnation { get; set; } = false;
     }
 }

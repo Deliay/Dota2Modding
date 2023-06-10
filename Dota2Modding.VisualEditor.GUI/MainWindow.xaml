@@ -9,7 +9,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Title="MainWindow" Height="760" Width="1280" Closing="Window_Closing"
-        UseLayoutRounding="True">
+        UseLayoutRounding="True" Loaded="GlowWindow_Loaded">
     <Grid x:Name="layoutRoot">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />

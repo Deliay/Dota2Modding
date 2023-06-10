@@ -22,7 +22,7 @@
         <hc:CircleProgressBar Maximum="{Binding MaxStep}" Value="{Binding CurrentStep}" ShowText="False" Width="120" Height="120"/>
         <TextBlock FontSize="20">
             <TextBlock.Text>
-                <MultiBinding StringFormat="{}({0}){1}">
+                <MultiBinding StringFormat="{}{0} {1}">
                     <Binding Path="Phase" />
                     <Binding Path="Message" />
                 </MultiBinding>

@@ -151,9 +151,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             {
                 await windowManager.BeginUIThreadScope(() =>
                 {
-                    this.dialog = Dialog.Show<LoadingOverride>();
-                    dialog.DataContext = this;
-                    dialog.Initialize<ProjectManager>(_ => { });
+                    if (this.dialog is null)
+                    {
+                        this.dialog = Dialog.Show<LoadingOverride>();
+                        dialog.DataContext = this;
+                        dialog.Initialize<ProjectManager>(_ => { });
+                    }
                 });
                 Stopwatch sw = Stopwatch.StartNew();
                 DotaProject = new(file, new Dota2Locator());

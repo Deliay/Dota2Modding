@@ -226,5 +226,10 @@ namespace Dota2Modding.VisualEditor.GUI
         {
             this.LayoutDocumentPane.Children.Remove(e.Document);
         }
+
+        private void GlowWindow_Loaded(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

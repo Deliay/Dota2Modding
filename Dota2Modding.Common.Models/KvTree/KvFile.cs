@@ -10,8 +10,8 @@ using ValveKeyValue;
 namespace Dota2Modding.Common.Models.KvTree
 {
     /// <summary>
-    /// Represent a Valve KV file, initialize by a stream which contains entire origin
-    /// KV file content, and can 
+    /// Represent a Valve KV file, initialize deserialize by a stream which contains entire origin
+    /// KV file content, and can serialize kv tree after edit
     /// </summary>
     public class KvFile : KVObject
     {
