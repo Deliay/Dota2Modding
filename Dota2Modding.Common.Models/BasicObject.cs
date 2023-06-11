@@ -6,13 +6,14 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using ValveKeyValue;
 
 namespace Dota2Modding.Common.Models
 {
-    public class BasicObject : KVObject
+    public class BasicObject : KVObject, INotifyPropertyChanged
     {
 
         static BasicObject()
@@ -107,6 +108,12 @@ namespace Dota2Modding.Common.Models
 
         private readonly List<BasicObject> overrideDict = new();
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public IReadOnlyList<BasicObject> Overrides => overrideDict;
 
         public void AddOverride(BasicObject obj)
@@ -125,7 +132,11 @@ namespace Dota2Modding.Common.Models
             {
                 return base[key] ?? overrideDict.Select(dict => dict[key]).FirstOrDefault(r => r is not null)!;
             }
-            set => base[key] = value;
+            set
+            {
+                base[key] = value;
+                OnPropertyChanged(key);
+            }
         }
     }
 }

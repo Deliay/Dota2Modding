@@ -15,7 +15,7 @@ namespace Dota2Modding.Common.Models.Parser
         {
             try
             {
-                using var stream = File.OpenRead(file);;
+                using var stream = File.OpenRead(file);
                 return kv1txt.Deserialize(stream);
             }
             catch (Exception e)

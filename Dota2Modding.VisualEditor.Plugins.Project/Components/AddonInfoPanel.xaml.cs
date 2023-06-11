@@ -62,7 +62,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
             await windowManager.BeginUIThreadScope(() =>
             {
                 var proj = scope.Resolve<ProjectManager>();
-                this.grid.SelectedObject = proj.DotaProject.AddonInfo;
+                this.DataContext = proj;
             });
         }
 
@@ -70,6 +70,7 @@ namespace Dota2Modding.VisualEditor.Plugins.Project.Components
         {
             await windowManager.BeginUIThreadScope(() =>
             {
+                this.DataContext = null!;
                 this.grid.SelectedObject = null!;
             });
         }

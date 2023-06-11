@@ -6,13 +6,13 @@
              xmlns:local="clr-namespace:Dota2Modding.VisualEditor.Plugins.Project.Components"
              xmlns:hc="https://handyorg.github.io/handycontrol"
              xmlns:ve="clr-namespace:Dota2Modding.VisualEditor.GUI.Customize;assembly=Dota2Modding.VisualEditor"
+             xmlns:project="clr-namespace:Dota2Modding.VisualEditor.Plugins.Project"
+             d:DataContext="{d:DesignInstance Type=project:ProjectManager}"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-        <ve:KvPropertyGrid x:Name="grid">
-        </ve:KvPropertyGrid>
-        <hc:DialogContainer>
+        <ve:KvPropertyGrid x:Name="grid" SelectedObject="{Binding DotaProject.AddonInfo}">
             
-        </hc:DialogContainer>
+        </ve:KvPropertyGrid>
     </Grid>
 </UserControl>

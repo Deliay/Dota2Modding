@@ -133,6 +133,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
             using var proj = this.DotaProject;
             proj.LoadingStatusUpdated -= DotaProject_LoadingStatusUpdated;
             this.DotaProject = null!;
+            await windowManager.BeginUIThreadScope(() =>
+            {
+                OnPropertyChanged(nameof(DotaProject));
+                OnPropertyChanged(nameof(AbilitiesViewModel));
+                OnPropertyChanged(nameof(HeroViewModel));
+            });
             _ = Task.Run(() =>
             {
                 foreach (var gen in Enumerable.Range(0, GC.MaxGeneration))
@@ -181,7 +187,12 @@ namespace Dota2Modding.VisualEditor.Plugins.Project
                     WorkingDirectory = DotaProject.WorkingDirectory,
                     AddonInfoFile = file,
                 }, default);
-                await windowManager.BeginUIThreadScope(dialog.Close);
+                await windowManager.BeginUIThreadScope(() =>
+                {
+                    dialog.Close();
+                    OnPropertyChanged(nameof(DotaProject));
+                    OnPropertyChanged(nameof(Loading));
+                });
             }
             catch (Exception e)
             {
